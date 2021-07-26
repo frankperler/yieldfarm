@@ -9,8 +9,8 @@ module.exports = {
       network_id: "*" // Match any network id
     },
   },
-  contracts_directory: './src/contracts/',
-  contracts_build_directory: './src/abis/',
+  contracts_directory: './client/src/contracts',
+  contracts_build_directory: './client/src/abis/',
   compilers: {
     solc: {
       version: "^0.8.6",
