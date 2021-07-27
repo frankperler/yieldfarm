@@ -1,6 +1,6 @@
 import { React } from 'react'
 import './Dashboard.css';
-import web3 from 'web3'
+import web3 from 'web3';
 
 function Dashboard (props) {
   return (

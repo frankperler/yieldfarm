@@ -9,14 +9,14 @@ import './App.css';
 
 function App() {
 
-  const [account, setAccount] = useState('0xaC38D3143750cfAC0F903129C531E0557c9C3E47');
+  const [account, setAccount] = useState('0xa9c7c85792843c804f31cA925dB1e0f02498c304');
   const [daiToken, setDaiToken] = useState({})
   const [tegToken, setTegToken] = useState({})
   const [tokenFarm, setTokenFarm] = useState({})
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
   const [stakingBalance, setStakingBalance] = useState('0');
-  // const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadWeb3()
@@ -63,7 +63,7 @@ function App() {
       window.alert('TokenFarm contract not deployed to detected network')
     }
 
-    // this.setState({loading: false})
+    setLoading(false);
   }
 
   //load web3
@@ -80,33 +80,39 @@ function App() {
   }
 
   const stakeTokens = (amount) => {
-    // this.setState({ loading: true })
+    setLoading(true);
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
       tokenFarm.methods.stakeTokens(amount).send({ from: account }).on('transactionHash', (hash) => {
-        // this.setState({ loading: false })
+        setLoading(false);
       })
     })
   }
 
   const unstakeTokens = (amount) => {
-    // this.setState({ loading: true })
+    setLoading(true);
     tokenFarm.methods.unstakeTokens().send({ from: account }).on('transactionHash', (hash) => {
-      // this.setState({ loading: false })
+      setLoading(false);
     })
   }
 
-  return (
-    <div className="body">
-      <Navigationbar account={account} />
-      <Main 
-        daiTokenBalance={daiTokenBalance}
-        tegTokenBalance={tegTokenBalance}
-        stakingBalance={stakingBalance}
-        stakeTokens={stakeTokens}
-        unstakeTokens={unstakeTokens}
-      />
-    </div>
-  );
+  
+  if(!loading) {
+    return (
+      <div className="body">
+          <Navigationbar account={account} />
+          <Main 
+            daiTokenBalance={daiTokenBalance}
+            tegTokenBalance={tegTokenBalance}
+            stakingBalance={stakingBalance}
+            stakeTokens={stakeTokens}
+            unstakeTokens={unstakeTokens}
+          />
+      </div>
+    )} else {
+    return (
+      <h1>The page is loading</h1>
+    )
+  }
 }
 
 export default App;
