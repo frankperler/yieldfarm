@@ -1,0 +1,28 @@
+form {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 2rem;
+  width: 80%;
+  padding: 1rem;
+}
+
+.form {
+  width: 100%
+}
+
+.input-group-text {
+  margin: 0.2rem
+}
+
+.text-muted {
+  margin: 0.2rem
+}
+
+input {
+  margin: 0.2rem
+}
+
+button {
+  margin: 0.2rem
+}

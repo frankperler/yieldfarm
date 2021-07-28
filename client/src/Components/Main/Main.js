@@ -1,23 +1,21 @@
 import { React, useState } from 'react'
 import Dashboard from '../Dashboard/Dashboard'
+import ExchangeBoard from '../ExchangeBoard/ExchangeBoard'
 import './Main.css';
 import web3 from 'web3'
-import dai from '../../dai.png'
 
-function Main (props) {
 
-  const [stakedAmount, setStakedAmount] = useState('0');
 
-  const handleChange = (setter) => (e) => {
-    setter(e.target.value);
-  }
+function Main(props) {
+
+
 
   return (
     <div id="content" className="mt-3">
 
-    <Dashboard stakingBalance={props.stakingBalance} tegTokenBalance={props.tegTokenBalance}/>
+      <Dashboard stakingBalance={props.stakingBalance} tegTokenBalance={props.tegTokenBalance} />
 
-    <div className="card mb-4">
+      {/* <div className="card mb-4">
 
       <div className="card-body">
 
@@ -60,8 +58,14 @@ function Main (props) {
             Unstake
         </button>
       </div>
+    </div> */}
+
+      <ExchangeBoard
+        unstakeTokens={props.unstakeTokens}
+        stakeTokens={props.stakeTokens}
+        daiTokenBalance={props.daiTokenBalance}
+        />
     </div>
-  </div>
   );
 }
 

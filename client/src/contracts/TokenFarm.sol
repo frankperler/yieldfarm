@@ -6,7 +6,7 @@ import "./TegToken.sol";
 
 contract TokenFarm {
 
-    string public name = "Tegrity Token Farm";
+    string public name = "Tegridy Token Farm";
 
     address public owner;
     TegToken public tegToken;
@@ -16,6 +16,7 @@ contract TokenFarm {
     mapping(address => uint) public stakingBalance;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
+    mapping(address => uint256) public startTime;
 
     constructor (TegToken _tegToken, DaiToken _daiToken) {
         tegToken = _tegToken;
@@ -26,7 +27,11 @@ contract TokenFarm {
     //1. Stake Tokens (deposit)
     function stakeTokens(uint256 _amount) public {
       //Amount staked cannot be smaller than 0
-      require(_amount > 0, 'amount cannot be 0');
+      require(
+        _amount > 0  &&
+        daiToken.balanceOf(msg.sender) >= _amount,
+        'You cannot stake zero tokens'
+      );
       // Transfer Mock Dai to this contract for staking
       daiToken.transferFrom(msg.sender, address(this), _amount);
       //update staking balance
