@@ -18,9 +18,9 @@ contract TokenFarm {
     mapping(address => uint256) public startTime;
     mapping(address => uint256) public tegBalance;
 
-    event Stake(address indexed from, uint256 amount);
-    event Unstake(address indexed from, uint256 amount);
-    event YieldWithdraw(address indexed to, uint256 amount);
+    event Stake(address indexed from, uint256 amount, uint256 balance);
+    event Unstake(address indexed from, uint256 amount, uint256 balance);
+    event YieldWithdraw(address indexed to, uint256 amount, uint256 balance);
 
     constructor(TegToken _tegToken, DaiToken _daiToken) {
         tegToken = _tegToken;
@@ -53,7 +53,7 @@ contract TokenFarm {
         //update staking status
         isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
-        emit Stake(msg.sender, _amount);
+        emit Stake(msg.sender, _amount, stakingBalance[msg.sender]);
         return stakingBalance[msg.sender];
     }
 
@@ -84,7 +84,7 @@ contract TokenFarm {
         if(stakingBalance[msg.sender] == 0){
             isStaking[msg.sender] = false;
         }
-        emit Unstake(msg.sender, _amount);
+        emit Unstake(msg.sender, _amount, stakingBalance[msg.sender]);
         return stakingBalance[msg.sender];
     }
 
@@ -117,8 +117,8 @@ contract TokenFarm {
 
         startTime[msg.sender] = block.timestamp;
         tegToken.transfer(msg.sender, toTransfer);
-        emit YieldWithdraw(msg.sender, toTransfer);
-        return tegBalance[msg.sender];
+        emit YieldWithdraw(msg.sender, toTransfer, tegBalance[msg.sender]);
+        return tegBalance[msg.sender]; 
     }
 
     function calculateYieldTime(address user) public view returns(uint256){

@@ -62,9 +62,18 @@ function App() {
       setStakingBalance(stakingBalance.toString())
       let tegBalance = await tokenFarm.methods.tegBalance(myAccount).call()
       setTegBalance(tegBalance.toString())
+      tokenFarm.events.Stake({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log(data)
+        }
+      })
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
+
+
 
     setAccount(myAccount)
   }
@@ -84,24 +93,17 @@ function App() {
 
   const stakeTokens = (amount) => {
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
-      tokenFarm.methods.stakeTokens(amount).send({ from: account }).then(function(balance) {
-        console.log(balance.toString())
-        setStakingBalance(balance.toString())}
-      )
+      tokenFarm.methods.stakeTokens(amount).send({ from: account })
     })
   }
 
   const unstakeTokens = (amount) => {
-    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).then(function(balance) {
-      console.log(balance.toString())
-      setStakingBalance(balance.toString())}
+    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).then(function (balance) { }
     )
   }
 
   const withdrawYield = () => {
-    tokenFarm.methods.withdrawYield().send({ from: account }).then(function(balance) {
-      console.log(balance.toString())
-      setTegBalance(balance.toString())}
+    tokenFarm.methods.withdrawYield().send({ from: account }).then(function (balance) { }
     )
   }
 
