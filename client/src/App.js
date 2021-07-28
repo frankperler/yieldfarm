@@ -16,6 +16,7 @@ function App() {
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
   const [stakingBalance, setStakingBalance] = useState('0');
+  const [tegBalance, setTegBalance] = useState('0');
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,6 +60,8 @@ function App() {
       setTokenFarm(tokenFarm)
       let stakingBalance = await tokenFarm.methods.stakingBalance(myAccount).call()
       setStakingBalance(stakingBalance.toString())
+      let tegBalance = await tokenFarm.methods.tegBalance(myAccount).call()
+      setTegBalance(tegBalance.toString())
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
@@ -87,7 +90,12 @@ function App() {
   }
 
   const unstakeTokens = (amount) => {
-    tokenFarm.methods.unstakeTokens().send({ from: account }).on('transactionHash', (hash) => {
+    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).on('transactionHash', (hash) => {
+    })
+  }
+
+  const withdrawYield = () => {
+    tokenFarm.methods.withdrawYield().send({ from: account }).on('transactionHash', (hash) => {
     })
   }
 
@@ -97,8 +105,10 @@ function App() {
       daiTokenBalance={daiTokenBalance}
       tegTokenBalance={tegTokenBalance}
       stakingBalance={stakingBalance}
+      tegBalance={tegBalance}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
+      withdrawYield={withdrawYield}
     />
   </div> : <p>Loading...</p>);
 

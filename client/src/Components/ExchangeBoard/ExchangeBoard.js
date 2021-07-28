@@ -12,6 +12,7 @@ function ExchangeBoard (props) {
       <LendBoard
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
+        withdrawYield={props.withdrawYield}
         daiTokenBalance={props.daiTokenBalance}
        />
        <BorrowBoard

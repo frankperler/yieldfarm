@@ -27,7 +27,7 @@ function LendItem(props) {
           Wallet {web3.utils.fromWei(props.daiTokenBalance, 'Ether')}
         </div>
         <div className="text-muted">
-          APY 1.50%
+          APY 1 TEG/DAY
         </div>
         <input
           type="text"
@@ -42,9 +42,20 @@ function LendItem(props) {
           className="btn btn-secondary btn-block btn-lg"
           onClick={(event) => {
             event.preventDefault()
-            props.unstakeTokens()
+            props.withdrawYield()
           }}>
           Withdraw
+        </button>
+        <button
+          type="submit"
+          className="btn btn-success btn-block btn-lg"
+          onClick={(event) => {
+            let amount;
+            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
+            event.preventDefault()
+            props.unstakeTokens(amount)
+          }}>
+          Unstake
         </button>
       </form>
     </div>

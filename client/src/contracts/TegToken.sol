@@ -1,17 +1,14 @@
-// "SPDX-License-Identifier: UNLICENSED"
+//SPDX-License-Identifier: UNLICENSED"
 pragma solidity ^0.8.6;
 
 contract TegToken {
-    string  public name = "Tegrity Token";
-    string  public symbol = "TEG";
+    string public name = "Tegrity Token";
+    string public symbol = "TEG";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
-    uint8   public decimals = 18;
+    uint8 public decimals = 18;
+    address public owner;
 
-    event Transfer(
-        address indexed _from,
-        address indexed _to,
-        uint256 _value
-    );
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
     event Approval(
         address indexed _owner,
@@ -26,7 +23,10 @@ contract TegToken {
         balanceOf[msg.sender] = totalSupply;
     }
 
-    function transfer(address _to, uint256 _value) public returns (bool success) {
+    function transfer(address _to, uint256 _value)
+        public
+        returns (bool success)
+    {
         require(balanceOf[msg.sender] >= _value);
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
@@ -34,13 +34,20 @@ contract TegToken {
         return true;
     }
 
-    function approve(address _spender, uint256 _value) public returns (bool success) {
+    function approve(address _spender, uint256 _value)
+        public
+        returns (bool success)
+    {
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _value
+    ) public returns (bool success) {
         require(_value <= balanceOf[_from]);
         require(_value <= allowance[_from][msg.sender]);
         balanceOf[_from] -= _value;
@@ -49,4 +56,12 @@ contract TegToken {
         emit Transfer(_from, _to, _value);
         return true;
     }
+
+    // function mint(address receiver, uint256 amount) public {
+    //     require(msg.sender == owner);
+    //     require(amount < 1e60);
+    //     balanceOf[receiver] += amount;
+    // }
 }
+
+

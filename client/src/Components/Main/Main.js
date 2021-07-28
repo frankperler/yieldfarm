@@ -13,7 +13,7 @@ function Main(props) {
   return (
     <div id="content" className="mt-3">
 
-      <Dashboard stakingBalance={props.stakingBalance} tegTokenBalance={props.tegTokenBalance} />
+      <Dashboard stakingBalance={props.stakingBalance} tegTokenBalance={props.tegTokenBalance} tegBalance={props.tegBalance} />
 
       {/* <div className="card mb-4">
 
@@ -63,6 +63,7 @@ function Main(props) {
       <ExchangeBoard
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
+        withdrawYield={props.withdrawYield}
         daiTokenBalance={props.daiTokenBalance}
         />
     </div>

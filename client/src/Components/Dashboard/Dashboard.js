@@ -9,7 +9,7 @@ function Dashboard (props) {
       <thead>
         <tr>
           <th scope="col">Staked Balance</th>
-          <th scope="col">Net Earnings</th>
+          <th scope="col">Net TEG Earnings</th>
           <th scope="col">Reward TEG Balance</th>
           <th scope="col">Borrowed Balance</th>
         </tr>
@@ -17,7 +17,7 @@ function Dashboard (props) {
       <tbody>
         <tr>
           <td>{web3.utils.fromWei(props.stakingBalance, 'Ether')} DAI</td>
-          <td>0.0000000</td>
+          <td>{web3.utils.fromWei(props.tegBalance, 'Ether')} TEG</td>
           <td>{web3.utils.fromWei(props.tegTokenBalance, 'Ether')} TEG</td>
           <td>0 DAI</td>
         </tr>

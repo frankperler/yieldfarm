@@ -10,6 +10,7 @@ function LendBoard(props) {
       <LendItem
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
+        withdrawYield={props.withdrawYield}
         daiTokenBalance={props.daiTokenBalance}
       />
     </div>
