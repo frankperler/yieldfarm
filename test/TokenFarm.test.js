@@ -48,7 +48,7 @@ contract('TokenFarm', ([owner, investor]) => {
   describe('Token Farm deployment', async () => {
     it('has a name', async () => {
       const name = await tokenFarm.name()
-      assert.equal(name, 'Tegrity Token Farm')
+      assert.equal(name, 'Tegridy Token Farm')
     })
 
     it('has tokens', async () => {

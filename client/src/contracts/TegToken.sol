@@ -56,12 +56,7 @@ contract TegToken {
         emit Transfer(_from, _to, _value);
         return true;
     }
-
-    // function mint(address receiver, uint256 amount) public {
-    //     require(msg.sender == owner);
-    //     require(amount < 1e60);
-    //     balanceOf[receiver] += amount;
-    // }
+    
 }
 
 

@@ -29,7 +29,7 @@ contract TokenFarm {
     }
 
     //1. Stake Tokens (deposit)
-    function stakeTokens(uint256 _amount) public {
+    function stakeTokens(uint256 _amount) public returns (uint256 balance) {
         //Amount staked cannot be smaller than 0
         require(
             _amount > 0 && daiToken.balanceOf(msg.sender) >= _amount,
@@ -54,10 +54,11 @@ contract TokenFarm {
         isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
         emit Stake(msg.sender, _amount);
+        return stakingBalance[msg.sender];
     }
 
     //2. Unstaking Tokens (withdraw)
-    function unstakeTokens(uint256 _amount) public {
+    function unstakeTokens(uint256 _amount) public returns (uint256 balance) {
         //require amounnt > 0
         require(
             stakingBalance[msg.sender] >= _amount &&
@@ -73,7 +74,7 @@ contract TokenFarm {
         uint256 balanceTransfer = _amount;
         _amount = 0;
         //decrease staking balance by amount
-        stakingBalance[msg.sender] -= _amount;
+        stakingBalance[msg.sender] -= balanceTransfer;
         //unstake dai tokens from farm to investor
         daiToken.transfer(msg.sender, balanceTransfer);
 
@@ -84,21 +85,22 @@ contract TokenFarm {
             isStaking[msg.sender] = false;
         }
         emit Unstake(msg.sender, _amount);
+        return stakingBalance[msg.sender];
     }
 
-    //3. Issuing Teg Tokens to investor on a regular basis
-    function issueTokens() public {
-        require(msg.sender == owner, "only owner can call this function");
-        for (uint256 i = 0; i < stakers.length; i++) {
-            address recipient = stakers[i];
-            uint256 balance = stakingBalance[recipient];
-            if (balance > 0) {
-                tegToken.transfer(recipient, balance); // send exactly the same amount of tegToken than dai Token deposited
-            }
-        }
-    }
+    // //3. Issuing Teg Tokens to investor on a regular basis
+    // function issueTokens() public {
+    //     require(msg.sender == owner, "only owner can call this function");
+    //     for (uint256 i = 0; i < stakers.length; i++) {
+    //         address recipient = stakers[i];
+    //         uint256 balance = stakingBalance[recipient];
+    //         if (balance > 0) {
+    //             tegToken.transfer(recipient, balance); // send exactly the same amount of tegToken than dai Token deposited
+    //         }
+    //     }
+    // }
 
-    function withdrawYield() public {
+    function withdrawYield() public returns (uint256 balance) {
         uint256 toTransfer = calculateYieldTotal(msg.sender);
 
         require(
@@ -116,6 +118,7 @@ contract TokenFarm {
         startTime[msg.sender] = block.timestamp;
         tegToken.transfer(msg.sender, toTransfer);
         emit YieldWithdraw(msg.sender, toTransfer);
+        return tegBalance[msg.sender];
     }
 
     function calculateYieldTime(address user) public view returns(uint256){
@@ -130,5 +133,5 @@ contract TokenFarm {
         uint256 timeRate = time / rate;
         uint256 rawYield = (stakingBalance[user] * timeRate) / 10**18;
         return rawYield;
-    } 
+    }
 }

@@ -13,12 +13,14 @@ function LendItem(props) {
 
   return (
     <div className="form">
-      <form className="mb-3" onSubmit={(event) => {
-        event.preventDefault()
-        let amount;
-        amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-        props.stakeTokens(amount)
-      }}>
+      <form className="mb-3"
+      // onSubmit={(event) => {
+      //   event.preventDefault()
+      //   let amount;
+      //   amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
+      //   props.stakeTokens(amount)
+      // }}
+      >
         <div className="input-group-text">
           <img src={dai} height='32' alt="" />
           &nbsp;&nbsp;&nbsp; DAI
@@ -27,7 +29,7 @@ function LendItem(props) {
           Wallet {web3.utils.fromWei(props.daiTokenBalance, 'Ether')}
         </div>
         <div className="text-muted">
-          APY 1 TEG/DAY
+          APY 100%/day
         </div>
         <input
           type="text"
@@ -36,26 +38,34 @@ function LendItem(props) {
           className="form-control form-control-lg"
           placeholder="0"
           required />
-        <button type="submit" className="btn btn-primary btn-block btn-lg">Lend</button>
-        <button
-          type="submit"
-          className="btn btn-secondary btn-block btn-lg"
-          onClick={(event) => {
+        <button type="submit" className="btn btn-primary btn-block btn-lg"
+          onClick={async (event) => {
             event.preventDefault()
-            props.withdrawYield()
+            let amount;
+            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
+            await props.stakeTokens(amount)
           }}>
-          Withdraw
+          Lend
         </button>
         <button
           type="submit"
-          className="btn btn-success btn-block btn-lg"
-          onClick={(event) => {
+          className="btn btn-danger btn-block btn-lg"
+          onClick={async (event) => {
+            event.preventDefault()
             let amount;
             amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            event.preventDefault()
-            props.unstakeTokens(amount)
+            await props.unstakeTokens(amount)
           }}>
           Unstake
+        </button>
+        <button
+          type="submit"
+          className="btn btn-secondary btn-block btn-lg"
+          onClick={async (event) => {
+            event.preventDefault()
+            await props.withdrawYield()
+          }}>
+          Withdraw
         </button>
       </form>
     </div>

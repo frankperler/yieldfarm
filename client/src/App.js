@@ -84,20 +84,31 @@ function App() {
 
   const stakeTokens = (amount) => {
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
-      tokenFarm.methods.stakeTokens(amount).send({ from: account }).on('transactionHash', (hash) => {
-      })
+      tokenFarm.methods.stakeTokens(amount).send({ from: account }).then(function(balance) {
+        console.log(balance.toString())
+        setStakingBalance(balance.toString())}
+      )
     })
   }
 
   const unstakeTokens = (amount) => {
-    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).on('transactionHash', (hash) => {
-    })
+    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).then(function(balance) {
+      console.log(balance.toString())
+      setStakingBalance(balance.toString())}
+    )
   }
 
   const withdrawYield = () => {
-    tokenFarm.methods.withdrawYield().send({ from: account }).on('transactionHash', (hash) => {
-    })
+    tokenFarm.methods.withdrawYield().send({ from: account }).then(function(balance) {
+      console.log(balance.toString())
+      setTegBalance(balance.toString())}
+    )
   }
+
+  // const calculateYieldTotal = (user) => {
+  //   tokenFarm.methods.calculateYieldTotal(user).call().on('transactionHash', (hash) => {
+  //   })
+  // }
 
   return (account ? <div className="body">
     <Navigationbar account={account} />
@@ -106,6 +117,8 @@ function App() {
       tegTokenBalance={tegTokenBalance}
       stakingBalance={stakingBalance}
       tegBalance={tegBalance}
+      setStakingBalance={setStakingBalance}
+      setTegBalance={setTegBalance}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
       withdrawYield={withdrawYield}
