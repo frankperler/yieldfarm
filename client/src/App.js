@@ -38,6 +38,14 @@ function App() {
       setDaiToken(daiToken)
       let daiTokenBalance = await daiToken.methods.balanceOf(myAccount).call()
       setDaiTokenBalance(daiTokenBalance.toString())
+      // daiToken.events.Transfer({}, (error, data) => {
+      //   if (error) {
+      //     console.log(error)
+      //   } else {
+      //     console.log(data)
+      //     // setDaiTokenBalance(daiToken.methods.balanceOf(data.returnValues._to).call())
+      //   }
+      // })
     } else {
       window.alert('Dai Token contract not deployed to detected network')
     }
@@ -49,6 +57,14 @@ function App() {
       setTegToken(tegToken)
       let tegTokenBalance = await tegToken.methods.balanceOf(myAccount).call()
       setTegTokenBalance(tegTokenBalance.toString())
+      // tegToken.events.Transfer({}, (error, data) => {
+      //   if (error) {
+      //     console.log(error)
+      //   } else {
+      //     console.log(data)
+      //     // setTegTokenBalance(tegToken.methods.balanceOf(data.returnValues._to).call())
+      //   }
+      // })
     } else {
       window.alert('Teg Token contract not deployed to detected network')
     }
@@ -62,13 +78,40 @@ function App() {
       setStakingBalance(stakingBalance.toString())
       let tegBalance = await tokenFarm.methods.tegBalance(myAccount).call()
       setTegBalance(tegBalance.toString())
+      // start event listeners
       tokenFarm.events.Stake({}, (error, data) => {
         if (error) {
           console.log(error)
         } else {
-          console.log(data)
+          setStakingBalance(data.returnValues.stakingBal)
+          setTegBalance(data.returnValues.intBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
         }
       })
+    
+      tokenFarm.events.Unstake({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setStakingBalance(data.returnValues.stakingBal)
+          setTegBalance(data.returnValues.intBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
+        }
+      })
+    
+      tokenFarm.events.YieldWithdraw({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setStakingBalance(data.returnValues.stakingBal)
+          setTegBalance(data.returnValues.intBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
+        }
+      })
+
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
@@ -91,6 +134,8 @@ function App() {
     }
   }
 
+
+
   const stakeTokens = (amount) => {
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
       tokenFarm.methods.stakeTokens(amount).send({ from: account })
@@ -98,13 +143,12 @@ function App() {
   }
 
   const unstakeTokens = (amount) => {
-    tokenFarm.methods.unstakeTokens(amount).send({ from: account }).then(function (balance) { }
-    )
+    tokenFarm.methods.unstakeTokens(amount).send({ from: account })
   }
 
   const withdrawYield = () => {
-    tokenFarm.methods.withdrawYield().send({ from: account }).then(function (balance) { }
-    )
+    tokenFarm.methods.withdrawYield().send({ from: account })
+    
   }
 
   // const calculateYieldTotal = (user) => {
