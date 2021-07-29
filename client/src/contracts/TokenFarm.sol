@@ -38,11 +38,14 @@ contract TokenFarm {
         uint256 daiBal
     );
 
-    event YieldEarnedWithdraw(
+    event YieldWithdraw(
         address indexed to,
-        uint256 amount,
+        uint256 amountEarned,
+        uint256 amountLost,
         uint256 stakingBal,
         uint256 intBal,
+        uint256 borrowBal,
+        uint256 lossBal,
         uint256 tegBal,
         uint256 daiBal
     );
@@ -120,8 +123,9 @@ contract TokenFarm {
         //require amounnt > 0
         require(
             stakingBalance[msg.sender] >= _amount &&
-                isStaking[msg.sender] == true,
-            "Staking balance must be larger than amount"
+                isStaking[msg.sender] == true &&
+                borrowedBalance[msg.sender] <= (stakingBalance[msg.sender]-_amount),
+            "Staking balance must be larger than amount and you should not be staking less than borrowed amounts"
         );
 
         //fetch staking balance
@@ -154,27 +158,42 @@ contract TokenFarm {
     }
 
     //3. withdraw earned yield
-    function withdrawEarningYield() public {
-        uint256 toTransfer = calculateEarningYield(msg.sender);
+    function withdrawYield() public {
+        uint256 toTransferEarned = calculateEarningYield(msg.sender);
+        uint256 toTransferLost = calculateLossYield(msg.sender);
 
         require(
-            toTransfer > 0 || earnedBalance[msg.sender] > 0,
+            toTransferEarned > 0 ||
+            earnedBalance[msg.sender] > 0 ||
+            toTransferLost > 0 ||
+            lossBalance[msg.sender] > 0,
             "Nothing to withdraw"
         );
 
         if (earnedBalance[msg.sender] != 0) {
-            uint256 oldBalance = earnedBalance[msg.sender];
+            uint256 oldBalanceEarned = earnedBalance[msg.sender];
             earnedBalance[msg.sender] = 0;
-            toTransfer += oldBalance;
+            toTransferEarned += oldBalanceEarned;
+        }
+
+        if (lossBalance[msg.sender] != 0) {
+            uint256 oldBalanceLost = lossBalance[msg.sender];
+            lossBalance[msg.sender] = 0;
+            toTransferLost += oldBalanceLost;
         }
 
         earnedTime[msg.sender] = block.timestamp;
-        tegToken.transfer(msg.sender, toTransfer);
-        emit YieldEarnedWithdraw(
+        borrowedTime[msg.sender] = block.timestamp;
+
+        tegToken.transfer(msg.sender, toTransferEarned-toTransferLost);
+        emit YieldWithdraw(
             msg.sender,
-            toTransfer,
+            toTransferEarned,
+            toTransferLost,
             stakingBalance[msg.sender],
             earnedBalance[msg.sender],
+            borrowedBalance[msg.sender],
+            lossBalance[msg.sender],
             tegToken.balanceOf(msg.sender),
             daiToken.balanceOf(msg.sender)
         );
@@ -267,32 +286,32 @@ contract TokenFarm {
         return borrowedBalance[msg.sender];
     }
 
-    //3. withdraw loss yield
-    function withdrawLossYield() public {
-        uint256 toTransfer = calculateLossYield(msg.sender);
+    // //3. withdraw loss yield
+    // function withdrawLossYield() public {
+    //     uint256 toTransfer = calculateLossYield(msg.sender);
 
-        require(
-            toTransfer > 0 || lossBalance[msg.sender] > 0,
-            "Nothing to withdraw"
-        );
+    //     require(
+    //         toTransfer > 0 || lossBalance[msg.sender] > 0,
+    //         "Nothing to withdraw"
+    //     );
 
-        if (lossBalance[msg.sender] != 0) {
-            uint256 oldBalance = lossBalance[msg.sender];
-            lossBalance[msg.sender] = 0;
-            toTransfer += oldBalance;
-        }
+    //     if (lossBalance[msg.sender] != 0) {
+    //         uint256 oldBalance = lossBalance[msg.sender];
+    //         lossBalance[msg.sender] = 0;
+    //         toTransfer += oldBalance;
+    //     }
 
-        borrowedTime[msg.sender] = block.timestamp;
-        tegToken.transfer(msg.sender, toTransfer);
-        emit YieldLossWithdraw(
-            msg.sender,
-            toTransfer,
-            borrowedBalance[msg.sender],
-            lossBalance[msg.sender],
-            tegToken.balanceOf(msg.sender),
-            daiToken.balanceOf(msg.sender)
-        );
-    }
+    //     borrowedTime[msg.sender] = block.timestamp;
+    //     tegToken.transfer(msg.sender, toTransfer);
+    //     emit YieldLossWithdraw(
+    //         msg.sender,
+    //         toTransfer,
+    //         borrowedBalance[msg.sender],
+    //         lossBalance[msg.sender],
+    //         tegToken.balanceOf(msg.sender),
+    //         daiToken.balanceOf(msg.sender)
+    //     );
+    // }
 
     function calculateBorrowTime(address user) public view returns (uint256) {
         uint256 end = block.timestamp;

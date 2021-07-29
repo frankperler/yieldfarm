@@ -10,7 +10,7 @@ function BorrowBoard(props) {
       <BorrowItem
         borrowTokens={props.borrowTokens}
         repayTokens={props.repayTokens}
-        withdrawLossYield={props.withdrawLossYield}
+        withdrawYield={props.withdrawYield}
       />
     </div>
   )

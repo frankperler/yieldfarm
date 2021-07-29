@@ -94,12 +94,14 @@ function App() {
         }
       })
 
-      tokenFarm.events.YieldEarnedWithdraw({}, (error, data) => {
+      tokenFarm.events.YieldWithdraw({}, (error, data) => {
         if (error) {
           console.log(error)
         } else {
           setStakingBalance(data.returnValues.stakingBal)
           setEarnedBalance(data.returnValues.intBal)
+          setBorrowedBalance(data.returnValues.borrowBal)
+          setLossBalance(data.returnValues.lossBal)
           setTegTokenBalance(data.returnValues.tegBal)
           setDaiTokenBalance(data.returnValues.daiBal)
         }
@@ -129,16 +131,16 @@ function App() {
         }
       })
 
-      tokenFarm.events.YieldLossWithdraw({}, (error, data) => {
-        if (error) {
-          console.log(error)
-        } else {
-          setBorrowedBalance(data.returnValues.borrowBal)
-          setLossBalance(data.returnValues.lossBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
-        }
-      })
+      // tokenFarm.events.YieldLossWithdraw({}, (error, data) => {
+      //   if (error) {
+      //     console.log(error)
+      //   } else {
+      //     setBorrowedBalance(data.returnValues.borrowBal)
+      //     setLossBalance(data.returnValues.lossBal)
+      //     setTegTokenBalance(data.returnValues.tegBal)
+      //     setDaiTokenBalance(data.returnValues.daiBal)
+      //   }
+      // })
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
@@ -169,8 +171,8 @@ function App() {
     tokenFarm.methods.unstakeTokens(amount).send({ from: account })
   }
 
-  const withdrawEarningYield = () => {
-    tokenFarm.methods.withdrawEarningYield().send({ from: account })
+  const withdrawYield = () => {
+    tokenFarm.methods.withdrawYield().send({ from: account })
   }
 
   const borrowTokens = (amount) => {
@@ -183,9 +185,9 @@ function App() {
     })
   }
 
-  const withdrawLossYield = () => {
-    tokenFarm.methods.withdrawLossYield().send({ from: account })
-  }
+  // const withdrawLossYield = () => {
+  //   tokenFarm.methods.withdrawLossYield().send({ from: account })
+  // }
 
   return (account ? <div className="body">
     <Navigationbar account={account} />
@@ -197,12 +199,12 @@ function App() {
       borrowedBalance={borrowedBalance}
       lossBalance={lossBalance}
 
-      withdrawEarningYield={withdrawEarningYield}
+      withdrawYield={withdrawYield}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
       borrowTokens={borrowTokens}
       repayTokens={repayTokens}
-      withdrawLossYield={withdrawLossYield}
+      // withdrawLossYield={withdrawLossYield}
     />
   </div> : <p>Loading...</p>);
 

@@ -12,7 +12,7 @@ function ExchangeBoard(props) {
       <LendBoard
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
-        withdrawEarningYield={props.withdrawEarningYield}
+        withdrawYield={props.withdrawYield}
 
       // setStakingBalance={props.setStakingBalance}
       // setEarnedBalance={props.setEarnedBalance}
@@ -21,7 +21,7 @@ function ExchangeBoard(props) {
       <BorrowBoard
         borrowTokens={props.borrowTokens}
         repayTokens={props.repayTokens}
-        withdrawLossYield={props.withdrawLossYield}
+        withdrawYield={props.withdrawYield}
       />
     </div>
 

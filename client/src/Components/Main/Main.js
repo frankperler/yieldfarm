@@ -23,10 +23,10 @@ function Main(props) {
       <ExchangeBoard
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
-        withdrawEarningYield={props.withdrawEarningYield}
+        withdrawYield={props.withdrawYield}
         borrowTokens={props.borrowTokens}
         repayTokens={props.repayTokens}
-        withdrawLossYield={props.withdrawLossYield}
+        // withdrawLossYield={props.withdrawLossYield}
         // setStakingBalance={props.setStakingBalance}
         // setEarnedBalance={props.setEarnedBalance}
       />
