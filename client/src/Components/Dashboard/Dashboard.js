@@ -21,7 +21,7 @@ function Dashboard (props) {
         <tr>
           <td>{web3.utils.fromWei(props.stakingBalance, 'Ether')} DAI</td>
           <td>{web3.utils.fromWei(props.earnedBalance, 'Ether')} TEG</td>
-          <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} TEG</td>
+          <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} DAI</td>
           <td>{web3.utils.fromWei(props.tegTokenBalance, 'Ether')} TEG</td>
           <td>0 TEG</td>
           <td>0 DAI</td>

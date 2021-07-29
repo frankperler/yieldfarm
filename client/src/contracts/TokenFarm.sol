@@ -25,9 +25,11 @@ contract TokenFarm {
 
     event Stake(address indexed from, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
     event Unstake(address indexed from, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
-    event Borrow(address indexed from, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
-    event Repay(address indexed from, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
-    event YieldWithdraw(address indexed to, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
+    event YieldEarnedWithdraw(address indexed to, uint256 amount, uint256 stakingBal, uint256 intBal, uint256 tegBal, uint256 daiBal);
+
+    event Borrow(address indexed from, uint256 amount, uint256 borrowBal, uint256 lossBal, uint256 tegBal, uint256 daiBal);
+    event Repay(address indexed from, uint256 amount, uint256 borrowBal, uint256 lossBal, uint256 tegBal, uint256 daiBal);
+    event YieldLossWithdraw(address indexed to, uint256 amount, uint256 borrowBal, uint256 lossBal, uint256 tegBal, uint256 daiBal);
 
     constructor(TegToken _tegToken, DaiToken _daiToken) {
         tegToken = _tegToken;
@@ -44,7 +46,7 @@ contract TokenFarm {
         );
 
         if (isStaking[msg.sender] == true) {
-            uint256 toTransfer = calculateYieldTotal(msg.sender);
+            uint256 toTransfer = calculateEarningYield(msg.sender);
             earnedBalance[msg.sender] += toTransfer;
         }
         // Transfer Mock Dai to this contract for staking
@@ -76,7 +78,7 @@ contract TokenFarm {
         //fetch staking balance
         // uint256 balance = stakingBalance[msg.sender];
 
-        uint256 yieldTransfer = calculateYieldTotal(msg.sender);
+        uint256 yieldTransfer = calculateEarningYield(msg.sender);
         earnedTime[msg.sender] = block.timestamp;
         uint256 balanceTransfer = _amount;
         _amount = 0;
@@ -95,65 +97,9 @@ contract TokenFarm {
         return stakingBalance[msg.sender];
     }
 
-        //3. Borrow Tokens
-    function borrowTokens(uint256 _amount) public returns (uint256 balance) {
-        //Amount staked cannot be smaller than 0,
-        //Borrower should be staking
-        //His staking balance should always be larger than borrowed amount (overcollateralized)
-        //Balance of TEG tokens should not be 0 or lower
-        require(
-            _amount > 0 &&
-            isStaking[msg.sender] == true &&
-            stakingBalance[msg.sender] >= _amount &&
-            tegToken.balanceOf(msg.sender) >= 0,
-            "You cannot borrow zero tokens"
-        );
-
-        uint256 toTransfer = calculateYieldTotal(msg.sender);
-        lossBalance[msg.sender] += toTransfer;
-        // Transfer Mock Dai to borrower
-        daiToken.transferFrom(address(this), msg.sender, _amount);
-        //update start time
-        borrowedTime[msg.sender] = block.timestamp;
-        //update borrowed balance
-        borrowedBalance[msg.sender] += _amount;
-        //update borrowing status
-        isBorrowing[msg.sender] = true;
-        emit Borrow(msg.sender, _amount, borrowedBalance[msg.sender], lossBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
-        return borrowedBalance[msg.sender];
-    }
-
-    //2. Repay Tokens
-    function repayTokens(uint256 _amount) public returns (uint256 balance) {
-        //require amount > 0
-        require(
-            borrowedBalance[msg.sender] >= _amount &&
-            isBorrowing[msg.sender] == true,
-            "Borrowed balance must be larger than amount"
-        );
-
-        uint256 yieldTransfer = calculateYieldTotal(msg.sender); // again check
-        borrowedTime[msg.sender] = block.timestamp;
-        uint256 balanceTransfer = _amount;
-        _amount = 0;
-        //decrease staking balance by amount
-        borrowedBalance[msg.sender] -= balanceTransfer;
-        //unstake dai tokens from farm to investor
-        daiToken.transfer(address(this), balanceTransfer);
-
-        lossBalance[msg.sender] += yieldTransfer;
-        // is he still staking?
-        //update staking status
-        if(borrowedBalance[msg.sender] == 0){
-            isBorrowing[msg.sender] = false;
-        }
-        emit Repay(msg.sender, _amount, borrowedBalance[msg.sender], lossBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
-        return borrowedBalance[msg.sender];
-    }
-
-    //withdraw Yield
-    function withdrawYield() public {
-        uint256 toTransfer = calculateYieldTotal(msg.sender);
+     //3. withdraw earned yield
+    function withdrawEarningYield() public {
+        uint256 toTransfer = calculateEarningYield(msg.sender);
 
         require(
             toTransfer > 0 ||
@@ -169,20 +115,113 @@ contract TokenFarm {
 
         earnedTime[msg.sender] = block.timestamp;
         tegToken.transfer(msg.sender, toTransfer);
-        emit YieldWithdraw(msg.sender, toTransfer, stakingBalance[msg.sender], earnedBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
+        emit YieldEarnedWithdraw(msg.sender, toTransfer, stakingBalance[msg.sender], earnedBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
     }
 
-    function calculateYieldTime(address user) public view returns(uint256){
+    function calculateEarningTime(address user) public view returns(uint256){
         uint256 end = block.timestamp;
         uint256 totalTime = end - earnedTime[user];
         return totalTime;
     }
 
-    function calculateYieldTotal(address user) public view returns(uint256) {
-        uint256 time = calculateYieldTime(user) * 10**18;
-        uint256 rate = 31536000; // change rate if borrowing
+    function calculateEarningYield(address user) public view returns(uint256) {
+        uint256 time = calculateEarningTime(user) * 10**18;
+        uint256 rate = 31536000; // 100%
         uint256 timeRate = time / rate;
         uint256 rawYield = (stakingBalance[user] * timeRate) / 10**18;
         return rawYield;
     }
+
+    //4. Borrow Tokens
+    function borrowTokens(uint256 _amount) public returns (uint256 balance) {
+        //Amount staked cannot be smaller than 0,
+        //Borrower should be staking
+        //His staking balance should always be larger than borrowed amount (overcollateralized)
+        //Balance of TEG tokens should not be 0 or lower
+        require(
+            _amount > 0 &&
+            isStaking[msg.sender] == true &&
+            stakingBalance[msg.sender] >= _amount &&
+            tegToken.balanceOf(msg.sender) >= 0,
+            "You cannot borrow zero tokens"
+        );
+
+        uint256 toTransfer = calculateLossYield(msg.sender);
+        lossBalance[msg.sender] -= toTransfer;
+        // Transfer Mock Dai to borrower
+        daiToken.transferFrom(address(this), msg.sender, _amount);
+        //update start time
+        borrowedTime[msg.sender] = block.timestamp;
+        //update borrowed balance
+        borrowedBalance[msg.sender] += _amount;
+        //update borrowing status
+        isBorrowing[msg.sender] = true;
+        emit Borrow(msg.sender, _amount, borrowedBalance[msg.sender], lossBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
+        return borrowedBalance[msg.sender];
+    }
+
+    //5. Repay Tokens
+    function repayTokens(uint256 _amount) public returns (uint256 balance) {
+        //require amount > 0
+        require(
+            borrowedBalance[msg.sender] >= _amount &&
+            isBorrowing[msg.sender] == true,
+            "Borrowed balance must be larger than amount"
+        );
+
+        uint256 yieldTransfer = calculateLossYield(msg.sender);
+        borrowedTime[msg.sender] = block.timestamp;
+        uint256 balanceTransfer = _amount;
+        _amount = 0;
+        //decrease staking balance by amount
+        borrowedBalance[msg.sender] -= balanceTransfer;
+        //unstake dai tokens from farm to investor
+        daiToken.transfer(address(this), balanceTransfer);
+
+        lossBalance[msg.sender] -= yieldTransfer;
+        // is he still staking?
+        //update staking status
+        if(borrowedBalance[msg.sender] == 0){
+            isBorrowing[msg.sender] = false;
+        }
+        emit Repay(msg.sender, _amount, borrowedBalance[msg.sender], lossBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
+        return borrowedBalance[msg.sender];
+    }
+
+         //3. withdraw loss yield
+    function withdrawLossYield() public {
+        uint256 toTransfer = calculateLossYield(msg.sender);
+
+        require(
+            toTransfer > 0 ||
+            lossBalance[msg.sender] > 0,
+            "Nothing to withdraw"
+        );
+            
+        if(lossBalance[msg.sender] != 0){
+            uint256 oldBalance = lossBalance[msg.sender];
+            lossBalance[msg.sender] = 0;
+            toTransfer += oldBalance;
+        }
+
+        borrowedTime[msg.sender] = block.timestamp;
+        tegToken.transfer(msg.sender, toTransfer);
+        emit YieldLossWithdraw(msg.sender, toTransfer, borrowedBalance[msg.sender], lossBalance[msg.sender], tegToken.balanceOf(msg.sender), daiToken.balanceOf(msg.sender));
+    }
+
+    function calculateBorrowTime(address user) public view returns(uint256){
+        uint256 end = block.timestamp;
+        uint256 totalTime = end - borrowedTime[user];
+        return totalTime;
+    }
+
+    function calculateLossYield (address user) public view returns(uint256) {
+        uint256 time = calculateBorrowTime(user) * 10**18;
+        uint256 rate = 28669090; // 110%
+        uint256 timeRate = time / rate;
+        uint256 rawYield = (stakingBalance[user] * timeRate) / 10**18;
+        return rawYield;
+    }
+
+    
 }

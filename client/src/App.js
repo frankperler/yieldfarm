@@ -17,6 +17,8 @@ function App() {
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
   const [stakingBalance, setStakingBalance] = useState('0');
   const [earnedBalance, setEarnedBalance] = useState('0');
+  const [borrowedBalance, setBorrowedBalance] = useState('0');
+  const [lossBalance, setLossBalance] = useState('0');
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,7 +64,13 @@ function App() {
       setStakingBalance(stakingBalance.toString())
       let earnedBalance = await tokenFarm.methods.earnedBalance(myAccount).call()
       setEarnedBalance(earnedBalance.toString())
+      let borrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount).call()
+      setBorrowedBalance(borrowedBalance.toString())
+      let lossBalance = await tokenFarm.methods.lossBalance(myAccount).call()
+      setLossBalance(lossBalance.toString())
+
       // start event listeners
+
       tokenFarm.events.Stake({}, (error, data) => {
         if (error) {
           console.log(error)
@@ -85,7 +93,7 @@ function App() {
         }
       })
     
-      tokenFarm.events.YieldWithdraw({}, (error, data) => {
+      tokenFarm.events.YieldEarnedWithdraw({}, (error, data) => {
         if (error) {
           console.log(error)
         } else {
@@ -96,6 +104,38 @@ function App() {
         }
       })
 
+      tokenFarm.events.Borrow({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setBorrowedBalance(data.returnValues.borrowBal)
+          setLossBalance(data.returnValues.lossBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
+        }
+      })
+    
+      tokenFarm.events.Repay({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setBorrowedBalance(data.returnValues.borrowBal)
+          setLossBalance(data.returnValues.lossBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
+        }
+      })
+    
+      tokenFarm.events.YieldLossWithdraw({}, (error, data) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setBorrowedBalance(data.returnValues.borrowBal)
+          setLossBalance(data.returnValues.lossBal)
+          setTegTokenBalance(data.returnValues.tegBal)
+          setDaiTokenBalance(data.returnValues.daiBal)
+        }
+      })
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
@@ -116,8 +156,6 @@ function App() {
     }
   }
 
-
-
   const stakeTokens = (amount) => {
     daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
       tokenFarm.methods.stakeTokens(amount).send({ from: account })
@@ -128,15 +166,21 @@ function App() {
     tokenFarm.methods.unstakeTokens(amount).send({ from: account })
   }
 
-  const withdrawYield = () => {
-    tokenFarm.methods.withdrawYield().send({ from: account })
+  const withdrawEarningYield = () => {
+    tokenFarm.methods.withdrawEarningYield().send({ from: account })
+  }
+
+  const borrowTokens = (amount) => {
     
   }
 
-  // const calculateYieldTotal = (user) => {
-  //   tokenFarm.methods.calculateYieldTotal(user).call().on('transactionHash', (hash) => {
-  //   })
-  // }
+  const repayTokens = (amount) => {
+
+  }
+
+  const withdrawLossYield = () => {
+
+  }
 
   return (account ? <div className="body">
     <Navigationbar account={account} />
@@ -149,7 +193,7 @@ function App() {
       setEarnedBalance={setEarnedBalance}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
-      withdrawYield={withdrawYield}
+      withdrawEarningYield={withdrawEarningYield}
     />
   </div> : <p>Loading...</p>);
 

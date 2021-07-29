@@ -53,7 +53,7 @@ function LendItem(props) {
           className="btn btn-secondary btn-block btn-lg"
           onClick={async (event) => {
             event.preventDefault()
-            await props.withdrawYield()
+            await props.withdrawEarningYield()
           }}>
           Withdraw
         </button>
