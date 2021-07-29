@@ -21,4 +21,7 @@ module.exports = async function(deployer, network, accounts) {
 
   // transfer 100 fake dai to account 1 on Ganache 
   await daiToken.transfer(accounts[1], "100000000000000000000")
+
+  // transfer 10000 fake dai to farm so that it can lend
+  await daiToken.transfer(tokenFarm.address, "10000000000000000000000")
 };

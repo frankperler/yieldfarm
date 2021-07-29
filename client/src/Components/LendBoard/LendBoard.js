@@ -11,9 +11,9 @@ function LendBoard(props) {
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
         withdrawYield={props.withdrawYield}
-        setStakingBalance={props.setStakingBalance}
-        setTegBalance={props.setTegBalance}
-        daiTokenBalance={props.daiTokenBalance}
+        // setStakingBalance={props.setStakingBalance}
+        // setEarnedBalance={props.setEarnedBalance}
+        // daiTokenBalance={props.daiTokenBalance}
       />
     </div>
   )

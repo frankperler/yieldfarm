@@ -13,23 +13,13 @@ function LendItem(props) {
 
   return (
     <div className="form">
-      <form className="mb-3"
-      // onSubmit={(event) => {
-      //   event.preventDefault()
-      //   let amount;
-      //   amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-      //   props.stakeTokens(amount)
-      // }}
-      >
+      <form className="mb-3">
         <div className="input-group-text">
           <img src={dai} height='32' alt="" />
           &nbsp;&nbsp;&nbsp; DAI
         </div>
         <div className="text-muted">
-          Wallet {web3.utils.fromWei(props.daiTokenBalance, 'Ether')}
-        </div>
-        <div className="text-muted">
-          APY 100%/day
+        APY/Earned 100%
         </div>
         <input
           type="text"

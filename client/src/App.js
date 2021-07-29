@@ -16,7 +16,7 @@ function App() {
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
   const [stakingBalance, setStakingBalance] = useState('0');
-  const [tegBalance, setTegBalance] = useState('0');
+  const [earnedBalance, setEarnedBalance] = useState('0');
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,14 +38,6 @@ function App() {
       setDaiToken(daiToken)
       let daiTokenBalance = await daiToken.methods.balanceOf(myAccount).call()
       setDaiTokenBalance(daiTokenBalance.toString())
-      // daiToken.events.Transfer({}, (error, data) => {
-      //   if (error) {
-      //     console.log(error)
-      //   } else {
-      //     console.log(data)
-      //     // setDaiTokenBalance(daiToken.methods.balanceOf(data.returnValues._to).call())
-      //   }
-      // })
     } else {
       window.alert('Dai Token contract not deployed to detected network')
     }
@@ -57,14 +49,6 @@ function App() {
       setTegToken(tegToken)
       let tegTokenBalance = await tegToken.methods.balanceOf(myAccount).call()
       setTegTokenBalance(tegTokenBalance.toString())
-      // tegToken.events.Transfer({}, (error, data) => {
-      //   if (error) {
-      //     console.log(error)
-      //   } else {
-      //     console.log(data)
-      //     // setTegTokenBalance(tegToken.methods.balanceOf(data.returnValues._to).call())
-      //   }
-      // })
     } else {
       window.alert('Teg Token contract not deployed to detected network')
     }
@@ -76,15 +60,15 @@ function App() {
       setTokenFarm(tokenFarm)
       let stakingBalance = await tokenFarm.methods.stakingBalance(myAccount).call()
       setStakingBalance(stakingBalance.toString())
-      let tegBalance = await tokenFarm.methods.tegBalance(myAccount).call()
-      setTegBalance(tegBalance.toString())
+      let earnedBalance = await tokenFarm.methods.earnedBalance(myAccount).call()
+      setEarnedBalance(earnedBalance.toString())
       // start event listeners
       tokenFarm.events.Stake({}, (error, data) => {
         if (error) {
           console.log(error)
         } else {
           setStakingBalance(data.returnValues.stakingBal)
-          setTegBalance(data.returnValues.intBal)
+          setEarnedBalance(data.returnValues.intBal)
           setTegTokenBalance(data.returnValues.tegBal)
           setDaiTokenBalance(data.returnValues.daiBal)
         }
@@ -95,7 +79,7 @@ function App() {
           console.log(error)
         } else {
           setStakingBalance(data.returnValues.stakingBal)
-          setTegBalance(data.returnValues.intBal)
+          setEarnedBalance(data.returnValues.intBal)
           setTegTokenBalance(data.returnValues.tegBal)
           setDaiTokenBalance(data.returnValues.daiBal)
         }
@@ -106,7 +90,7 @@ function App() {
           console.log(error)
         } else {
           setStakingBalance(data.returnValues.stakingBal)
-          setTegBalance(data.returnValues.intBal)
+          setEarnedBalance(data.returnValues.intBal)
           setTegTokenBalance(data.returnValues.tegBal)
           setDaiTokenBalance(data.returnValues.daiBal)
         }
@@ -115,8 +99,6 @@ function App() {
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
-
-
 
     setAccount(myAccount)
   }
@@ -162,9 +144,9 @@ function App() {
       daiTokenBalance={daiTokenBalance}
       tegTokenBalance={tegTokenBalance}
       stakingBalance={stakingBalance}
-      tegBalance={tegBalance}
+      earnedBalance={earnedBalance}
       setStakingBalance={setStakingBalance}
-      setTegBalance={setTegBalance}
+      setEarnedBalance={setEarnedBalance}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
       withdrawYield={withdrawYield}

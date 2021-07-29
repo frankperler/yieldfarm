@@ -24,10 +24,7 @@ function BorrowItem(props) {
           &nbsp;&nbsp;&nbsp; DAI
         </div>
         <div className="text-muted">
-          Wallet {web3.utils.fromWei(props.daiTokenBalance, 'Ether')}
-        </div>
-        <div className="text-muted">
-          APY 1.50%
+          APY/Accrued 110%
         </div>
         <input
           type="text"

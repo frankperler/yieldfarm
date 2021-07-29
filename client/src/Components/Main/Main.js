@@ -12,9 +12,10 @@ function Main(props) {
     <div id="content" className="mt-3">
 
       <Dashboard
-      stakingBalance={props.stakingBalance}
-      tegTokenBalance={props.tegTokenBalance} 
-      tegBalance={props.tegBalance}
+        stakingBalance={props.stakingBalance}
+        daiTokenBalance={props.daiTokenBalance}
+        tegTokenBalance={props.tegTokenBalance}
+        earnedBalance={props.earnedBalance}
       />
 
       <ExchangeBoard
@@ -22,9 +23,8 @@ function Main(props) {
         stakeTokens={props.stakeTokens}
         withdrawYield={props.withdrawYield}
         setStakingBalance={props.setStakingBalance}
-        setTegBalance={props.setTegBalance}
-        daiTokenBalance={props.daiTokenBalance}
-        />
+        setEarnedBalance={props.setEarnedBalance}
+      />
     </div>
   );
 }
