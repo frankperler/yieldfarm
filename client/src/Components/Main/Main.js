@@ -16,14 +16,19 @@ function Main(props) {
         daiTokenBalance={props.daiTokenBalance}
         tegTokenBalance={props.tegTokenBalance}
         earnedBalance={props.earnedBalance}
+        borrowedBalance={props.borrowedBalance}
+        lossBalance={props.lossBalance}
       />
 
       <ExchangeBoard
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
         withdrawEarningYield={props.withdrawEarningYield}
-        setStakingBalance={props.setStakingBalance}
-        setEarnedBalance={props.setEarnedBalance}
+        borrowTokens={props.borrowTokens}
+        repayTokens={props.repayTokens}
+        withdrawLossYield={props.withdrawLossYield}
+        // setStakingBalance={props.setStakingBalance}
+        // setEarnedBalance={props.setEarnedBalance}
       />
     </div>
   );

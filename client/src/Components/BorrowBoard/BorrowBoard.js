@@ -8,9 +8,9 @@ function BorrowBoard(props) {
   return (
     <div className="card-body">
       <BorrowItem
-        unstakeTokens={props.unstakeTokens}
-        stakeTokens={props.stakeTokens}
-        daiTokenBalance={props.daiTokenBalance}
+        borrowTokens={props.borrowTokens}
+        repayTokens={props.repayTokens}
+        withdrawLossYield={props.withdrawLossYield}
       />
     </div>
   )

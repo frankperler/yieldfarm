@@ -24,4 +24,5 @@ module.exports = async function(deployer, network, accounts) {
 
   // transfer 10000 fake dai to farm so that it can lend
   await daiToken.transfer(tokenFarm.address, "10000000000000000000000")
+  
 };

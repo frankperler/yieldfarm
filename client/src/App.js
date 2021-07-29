@@ -81,7 +81,7 @@ function App() {
           setDaiTokenBalance(data.returnValues.daiBal)
         }
       })
-    
+
       tokenFarm.events.Unstake({}, (error, data) => {
         if (error) {
           console.log(error)
@@ -92,7 +92,7 @@ function App() {
           setDaiTokenBalance(data.returnValues.daiBal)
         }
       })
-    
+
       tokenFarm.events.YieldEarnedWithdraw({}, (error, data) => {
         if (error) {
           console.log(error)
@@ -108,13 +108,14 @@ function App() {
         if (error) {
           console.log(error)
         } else {
+          console.log(data)
           setBorrowedBalance(data.returnValues.borrowBal)
           setLossBalance(data.returnValues.lossBal)
           setTegTokenBalance(data.returnValues.tegBal)
           setDaiTokenBalance(data.returnValues.daiBal)
         }
       })
-    
+
       tokenFarm.events.Repay({}, (error, data) => {
         if (error) {
           console.log(error)
@@ -125,7 +126,7 @@ function App() {
           setDaiTokenBalance(data.returnValues.daiBal)
         }
       })
-    
+
       tokenFarm.events.YieldLossWithdraw({}, (error, data) => {
         if (error) {
           console.log(error)
@@ -171,15 +172,17 @@ function App() {
   }
 
   const borrowTokens = (amount) => {
-    
+      tokenFarm.methods.borrowTokens(amount).send({ from: account })
   }
 
   const repayTokens = (amount) => {
-
+   daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+    tokenFarm.methods.repayTokens(amount).send({ from: account })
+    })
   }
 
   const withdrawLossYield = () => {
-
+    tokenFarm.methods.withdrawLossYield().send({ from: account })
   }
 
   return (account ? <div className="body">
@@ -189,11 +192,15 @@ function App() {
       tegTokenBalance={tegTokenBalance}
       stakingBalance={stakingBalance}
       earnedBalance={earnedBalance}
-      setStakingBalance={setStakingBalance}
-      setEarnedBalance={setEarnedBalance}
+      borrowedBalance={borrowedBalance}
+      lossBalance={lossBalance}
+
+      withdrawEarningYield={withdrawEarningYield}
       stakeTokens={stakeTokens}
       unstakeTokens={unstakeTokens}
-      withdrawEarningYield={withdrawEarningYield}
+      borrowTokens={borrowTokens}
+      repayTokens={repayTokens}
+      withdrawLossYield={withdrawLossYield}
     />
   </div> : <p>Loading...</p>);
 
