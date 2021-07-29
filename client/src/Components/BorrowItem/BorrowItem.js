@@ -45,6 +45,7 @@ function BorrowItem(props) {
               event.preventDefault()
               let amount;
               amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
+              console.log(amount)
               await props.repayTokens(amount)
             }}>
             Repay

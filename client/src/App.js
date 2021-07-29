@@ -75,6 +75,7 @@ function App() {
         if (error) {
           console.log(error)
         } else {
+          console.log(data)
           setStakingBalance(data.returnValues.stakingBal)
           setEarnedBalance(data.returnValues.intBal)
           setTegTokenBalance(data.returnValues.tegBal)
@@ -120,6 +121,7 @@ function App() {
         if (error) {
           console.log(error)
         } else {
+          console.log(data)
           setBorrowedBalance(data.returnValues.borrowBal)
           setLossBalance(data.returnValues.lossBal)
           setTegTokenBalance(data.returnValues.tegBal)

@@ -248,7 +248,7 @@ contract TokenFarm {
         //decrease borrowed balance by amount
         borrowedBalance[msg.sender] -= balanceTransfer;
         //repay dai tokens to farm
-        daiToken.transferFrom(address(this), msg.sender, _amount);
+        daiToken.transferFrom(msg.sender, address(this), balanceTransfer);
 
         lossBalance[msg.sender] += yieldTransfer;
         // is he still staking?
