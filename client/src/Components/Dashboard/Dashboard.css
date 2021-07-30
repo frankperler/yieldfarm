@@ -1,0 +1,9 @@
+.dashboard {
+  display: flex;
+
+}
+
+td img {
+  height: 2rem;
+  width: 2rem;
+}

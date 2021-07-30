@@ -9341,12 +9341,12 @@
         }
       },
       "links": {},
-      "address": "0x503b4c19E756a74504FdAA5F745d0980DEFD476C",
-      "transactionHash": "0xe91c3df37cb27d25476ec311637ae5134bf12d90b943cedd2e2b67de4856e941"
+      "address": "0xff78eB84605C5ffF9E533cFe0f50700500234b32",
+      "transactionHash": "0x3550db611a913ad41cabdfa3305999f830da64b17f323835d8d20d08a1a0b0c9"
     }
   },
   "schemaVersion": "3.4.2",
-  "updatedAt": "2021-07-29T17:58:15.324Z",
+  "updatedAt": "2021-07-30T08:35:57.342Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

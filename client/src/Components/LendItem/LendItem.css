@@ -24,3 +24,9 @@ button {
   width: 8rem;
   height: 3rem;
 }
+
+form img  {
+  margin: 0.2rem;
+  height: 3rem;
+  width: 3rem;
+}

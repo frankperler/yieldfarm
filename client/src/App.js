@@ -1,25 +1,30 @@
 import { React, useState, useEffect } from 'react'
 import Web3 from 'web3'
+import {loadWeb3} from './Service/Web3Service'
 import Navigationbar from './Components/Navbar/Navbar'
 import Main from './Components/Main/Main'
 import DaiToken from './abis/DaiToken.json'
 import TegToken from './abis/TegToken.json'
 import TokenFarm from './abis/TokenFarm.json'
+
 import './App.css';
 
 function App() {
 
   const [account, setAccount] = useState(null);
+
   const [daiToken, setDaiToken] = useState({})
   const [tegToken, setTegToken] = useState({})
   const [tokenFarm, setTokenFarm] = useState({})
+
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
+
   const [stakingBalance, setStakingBalance] = useState('0');
   const [earnedBalance, setEarnedBalance] = useState('0');
+  
   const [borrowedBalance, setBorrowedBalance] = useState('0');
   const [lossBalance, setLossBalance] = useState('0');
-  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadWeb3()
@@ -111,7 +116,6 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          console.log(data)
           setBorrowedBalance(data.returnValues.borrowBal)
           setLossBalance(data.returnValues.lossBal)
           setTegTokenBalance(data.returnValues.tegBal)
@@ -123,7 +127,6 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          console.log(data)
           setBorrowedBalance(data.returnValues.borrowBal)
           setLossBalance(data.returnValues.lossBal)
           setTegTokenBalance(data.returnValues.tegBal)
@@ -131,16 +134,6 @@ function App() {
         }
       })
 
-      // tokenFarm.events.YieldLossWithdraw({}, (error, data) => {
-      //   if (error) {
-      //     console.log(error)
-      //   } else {
-      //     setBorrowedBalance(data.returnValues.borrowBal)
-      //     setLossBalance(data.returnValues.lossBal)
-      //     setTegTokenBalance(data.returnValues.tegBal)
-      //     setDaiTokenBalance(data.returnValues.daiBal)
-      //   }
-      // })
     } else {
       window.alert('TokenFarm contract not deployed to detected network')
     }
@@ -148,23 +141,12 @@ function App() {
     setAccount(myAccount)
   }
 
-  //load web3
-  const loadWeb3 = async () => {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
+  const stakeTokens = (amount, token) => {
+    if(token === 'dai') {
+      daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.stakeTokens(amount, token).send({ from: account })
+      })
     }
-    else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    } else {
-      window.alert('Non-Ethereum browser detected. You should consider using Metamask!')
-    }
-  }
-
-  const stakeTokens = (amount) => {
-    daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
-      tokenFarm.methods.stakeTokens(amount).send({ from: account })
-    })
   }
 
   const unstakeTokens = (amount) => {
@@ -185,10 +167,6 @@ function App() {
     })
   }
 
-  // const withdrawLossYield = () => {
-  //   tokenFarm.methods.withdrawLossYield().send({ from: account })
-  // }
-
   return (account ? <div className="body">
     <Navigationbar account={account} />
     <Main
@@ -204,7 +182,6 @@ function App() {
       unstakeTokens={unstakeTokens}
       borrowTokens={borrowTokens}
       repayTokens={repayTokens}
-      // withdrawLossYield={withdrawLossYield}
     />
   </div> : <p>Loading...</p>);
 
