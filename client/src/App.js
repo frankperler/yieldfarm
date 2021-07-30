@@ -17,23 +17,31 @@ function App() {
 
   const [daiToken, setDaiToken] = useState({})
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
+  const [daiStakingBalance, setDaiStakingBalance] = useState('0');
+  const [daiEarnedBalance, setDaiEarnedBalance] = useState('0');
+  const [daiBorrowedBalance, setDaiBorrowedBalance] = useState('0');
+  const [daiLossBalance, setDaiLossBalance] = useState('0');
 
   const [ethToken, setEthToken] = useState({})
   const [ethTokenBalance, setEthTokenBalance] = useState('0');
+  const [ethStakingBalance, setEthStakingBalance] = useState('0');
+  const [ethEarnedBalance, setEthEarnedBalance] = useState('0');
+  const [ethBorrowedBalance, setEthBorrowedBalance] = useState('0');
+  const [ethLossBalance, setEthLossBalance] = useState('0');
 
   const [usdtToken, setUsdtToken] = useState({})
   const [usdtTokenBalance, setUsdtTokenBalance] = useState('0');
+  const [usdtStakingBalance, setUsdtStakingBalance] = useState('0');
+  const [usdtEarnedBalance, setUsdtEarnedBalance] = useState('0');
+  const [usdtBorrowedBalance, setUsdtBorrowedBalance] = useState('0');
+  const [usdtLossBalance, setUsdtLossBalance] = useState('0');
 
   const [tegToken, setTegToken] = useState({})
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
 
   const [tokenFarm, setTokenFarm] = useState({})
 
-  const [stakingBalance, setStakingBalance] = useState('0');
-  const [earnedBalance, setEarnedBalance] = useState('0');
 
-  const [borrowedBalance, setBorrowedBalance] = useState('0');
-  const [lossBalance, setLossBalance] = useState('0');
 
   useEffect(() => {
     loadWeb3()
@@ -96,14 +104,34 @@ function App() {
     if (tokenFarmData) {
       const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)
       setTokenFarm(tokenFarm)
-      let stakingBalance = await tokenFarm.methods.stakingBalance(myAccount).call()
-      setStakingBalance(stakingBalance.toString())
-      let earnedBalance = await tokenFarm.methods.earnedBalance(myAccount).call()
-      setEarnedBalance(earnedBalance.toString())
-      let borrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount).call()
-      setBorrowedBalance(borrowedBalance.toString())
-      let lossBalance = await tokenFarm.methods.lossBalance(myAccount).call()
-      setLossBalance(lossBalance.toString())
+      //set staking balances
+      let daiStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "dai").call()
+      let ethStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "eth").call()
+      let usdtStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "usdt").call()
+      setDaiStakingBalance(daiStakingBalance.toString())
+      setEthStakingBalance(ethStakingBalance.toString())
+      setUsdtStakingBalance(usdtStakingBalance.toString())
+      //set earned balances
+      let daiEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "dai").call()
+      let ethEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "eth").call()
+      let usdtEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "usdt").call()
+      setDaiEarnedBalance(daiEarnedBalance.toString())
+      setEthEarnedBalance(ethEarnedBalance.toString())
+      setUsdtEarnedBalance(usdtEarnedBalance.toString())
+      //set borrowed balances
+      let daiBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "dai").call()
+      let ethBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "eth").call()
+      let usdtBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "usdt").call()
+      setDaiBorrowedBalance(daiBorrowedBalance.toString())
+      setEthBorrowedBalance(ethBorrowedBalance.toString())
+      setUsdtBorrowedBalance(usdtBorrowedBalance.toString())
+      //set borrowed balances
+      let daiLossBalance = await tokenFarm.methods.LossBalance(myAccount, "dai").call()
+      let ethLossBalance = await tokenFarm.methods.LossBalance(myAccount, "eth").call()
+      let usdtLossBalance = await tokenFarm.methods.LossBalance(myAccount, "usdt").call()
+      setDaiLossBalance(daiLossBalance.toString())
+      setEthLossBalance(ethLossBalance.toString())
+      setUsdtLossBalance(usdtLossBalance.toString())
 
       // start event listeners
 
@@ -111,7 +139,6 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          console.log(data)
           setStakingBalance(data.returnValues.stakingBal)
           setEarnedBalance(data.returnValues.intBal)
           setTegTokenBalance(data.returnValues.tegBal)
