@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 contract UsdtToken {
     string  public name = "Mock USDT Token";
-    string  public symbol = "mUSDT";
+    string  public symbol = "usdt";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
     uint8   public decimals = 18;
 

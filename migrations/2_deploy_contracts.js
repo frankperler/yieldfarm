@@ -2,6 +2,7 @@ const DaiToken = artifacts.require('DaiToken')
 const EthToken = artifacts.require('EthToken')
 const UsdtToken = artifacts.require('UsdtToken')
 const TegToken = artifacts.require('TegToken')
+const Helpers = artifacts.require('Helpers')
 const TokenFarm = artifacts.require('TokenFarm')
 
 module.exports = async function (deployer, network, accounts) {
@@ -22,7 +23,10 @@ module.exports = async function (deployer, network, accounts) {
   await deployer.deploy(TegToken);
   const tegToken = await TegToken.deployed();
 
+
   // deploy TokenFarm
+  await deployer.deploy(Helpers)
+  await deployer.link(Helpers, TokenFarm)
   await deployer.deploy(TokenFarm, tegToken.address, daiToken.address, ethToken.address, usdtToken.address);
   const tokenFarm = await TokenFarm.deployed();
 

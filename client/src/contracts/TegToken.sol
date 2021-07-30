@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 
 contract TegToken {
     string public name = "Tegrity Token";
-    string public symbol = "TEG";
+    string public symbol = "teg";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
     uint8 public decimals = 18;
     address public owner;
