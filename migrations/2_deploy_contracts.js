@@ -1,4 +1,6 @@
 const DaiToken = artifacts.require('DaiToken')
+const EthToken = artifacts.require('EthToken')
+const UsdtToken = artifacts.require('UsdtToken')
 const TegToken = artifacts.require('TegToken')
 const TokenFarm = artifacts.require('TokenFarm')
 
