@@ -1,7 +1,9 @@
 import { React, useState, useEffect } from 'react'
+import { ThemeProvider, createTheme } from '@material-ui/core'
 import { loadWeb3 } from './Service/Web3Service'
 import Navigationbar from './Components/Navbar/Navbar'
 import Main from './Components/Main/Main'
+
 import DaiToken from './abis/DaiToken.json'
 import EthToken from './abis/EthToken.json'
 import UsdtToken from './abis/UsdtToken.json'
@@ -306,37 +308,60 @@ function App() {
     }
   }
 
-  return (account ? <div className="body">
-    <Navigationbar account={account} />
-    <Main
-      daiTokenBalance={daiTokenBalance}
-      ethTokenBalance={ethTokenBalance}
-      usdtTokenBalance={usdtTokenBalance}
-      tegTokenBalance={tegTokenBalance}
+  const theme = createTheme({
+    palette: {
+      type: "dark",
+        primary: {
+          light: '#757ce8',
+          main: '#3f50b5',
+          dark: '#002884',
+          contrastText: '#fff',
+        },
+        secondary: {
+          light: '#ff7961',
+          main: '#f44336',
+          dark: '#ba000d',
+          contrastText: '#000',
+        }
+    }
+  })
 
-      daiStakingBalance={daiStakingBalance}
-      ethStakingBalance={ethStakingBalance}
-      usdtStakingBalance={usdtStakingBalance}
+  return (account ?
+    <ThemeProvider theme={theme}>
 
-      daiEarnedBalance={daiEarnedBalance}
-      ethEarnedBalance={ethEarnedBalance}
-      usdtEarnedBalance={usdtEarnedBalance}
+      <div className="body">
+        <Navigationbar account={account} />
+        <Main
+          daiTokenBalance={daiTokenBalance}
+          ethTokenBalance={ethTokenBalance}
+          usdtTokenBalance={usdtTokenBalance}
+          tegTokenBalance={tegTokenBalance}
 
-      daiBorrowedBalance={daiBorrowedBalance}
-      ethBorrowedBalance={ethBorrowedBalance}
-      usdtBorrowedBalance={usdtBorrowedBalance}
+          daiStakingBalance={daiStakingBalance}
+          ethStakingBalance={ethStakingBalance}
+          usdtStakingBalance={usdtStakingBalance}
 
-      daiLossBalance={daiLossBalance}
-      ethLossBalance={ethLossBalance}
-      usdtLossBalance={usdtLossBalance}
+          daiEarnedBalance={daiEarnedBalance}
+          ethEarnedBalance={ethEarnedBalance}
+          usdtEarnedBalance={usdtEarnedBalance}
 
-      withdrawYield={withdrawYield}
-      stakeTokens={stakeTokens}
-      unstakeTokens={unstakeTokens}
-      borrowTokens={borrowTokens}
-      repayTokens={repayTokens}
-    />
-  </div> : <p>Loading...</p>);
+          daiBorrowedBalance={daiBorrowedBalance}
+          ethBorrowedBalance={ethBorrowedBalance}
+          usdtBorrowedBalance={usdtBorrowedBalance}
+
+          daiLossBalance={daiLossBalance}
+          ethLossBalance={ethLossBalance}
+          usdtLossBalance={usdtLossBalance}
+
+          withdrawYield={withdrawYield}
+          stakeTokens={stakeTokens}
+          unstakeTokens={unstakeTokens}
+          borrowTokens={borrowTokens}
+          repayTokens={repayTokens}
+        />
+      </div>
+    </ThemeProvider>
+    : <p>Loading...</p>);
 
 }
 

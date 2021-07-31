@@ -2,27 +2,53 @@ import { React } from 'react'
 import farmer from '../../randymarsh.png'
 import './Navbar.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-function Navigationbar (props) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    alignContent:"center"
+  },
+  logo: {
+    maxWidth: 140,
+  }
+}));
+
+function Navigationbar(props) {
+  const classes = useStyles();
 
   return (
-      <Navbar bg="dark" variant="dark" expand="lg" className="pt-5 pb-5">
-      <Container>
-        {/* <Navbar.Brand> */}
+    <div className={classes.root}>
+      <AppBar position="static" >
+        <Toolbar>
           <img
             alt=""
             src={farmer}
-            className="d-inline-block align-top"
-          />{' '}
-          <h1>Tegridy Token Farm</h1>
-        {/* </Navbar.Brand> */}
-        <Nav>
-          <Nav.Link>{props.account}</Nav.Link>
-        </Nav>
-      </Container>
-    </Navbar>
+            className={classes.logo}
+          />
+          <Typography variant="h3" className={classes.title}>
+            Tegridy Token Farm
+          </Typography>
+          <Typography variant="h6">
+            {props.account}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
+
 }
 
 export default Navigationbar;
