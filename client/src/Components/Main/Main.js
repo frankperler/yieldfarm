@@ -12,12 +12,27 @@ function Main(props) {
     <div id="content" className="mt-3">
 
       <Dashboard
-        stakingBalance={props.stakingBalance}
-        daiTokenBalance={props.daiTokenBalance}
-        tegTokenBalance={props.tegTokenBalance}
-        earnedBalance={props.earnedBalance}
-        borrowedBalance={props.borrowedBalance}
-        lossBalance={props.lossBalance}
+      daiTokenBalance={props.daiTokenBalance}
+      ethTokenBalance={props.ethTokenBalance}
+      usdtTokenBalance={props.usdtTokenBalance}
+      tegTokenBalance={props.tegTokenBalance}
+
+      daiStakingBalance={props.daiStakingBalance}
+      ethStakingBalance={props.ethStakingBalance}
+      usdtStakingBalance={props.usdtStakingBalance}
+
+      daiBorrowedBalance={props.daiBorrowedBalance}
+      ethBorrowedBalance={props.ethBorrowedBalance}
+      usdtBorrowedBalance={props.usdtBorrowedBalance}
+
+      daiEarnedBalance={props.daiEarnedBalance}
+      ethEarnedBalance={props.ethEarnedBalance}
+      usdtEarnedBalance={props.usdtEarnedBalance}
+
+      daiLossBalance={props.daiLossBalance}
+      ethLossBalance={props.ethLossBalance}
+      usdtLossBalance={props.usdtLossBalance}
+
       />
 
       <ExchangeBoard
@@ -26,9 +41,6 @@ function Main(props) {
         withdrawYield={props.withdrawYield}
         borrowTokens={props.borrowTokens}
         repayTokens={props.repayTokens}
-        // withdrawLossYield={props.withdrawLossYield}
-        // setStakingBalance={props.setStakingBalance}
-        // setEarnedBalance={props.setEarnedBalance}
       />
     </div>
   );

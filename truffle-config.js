@@ -18,7 +18,7 @@ module.exports = {
       version: "^0.8.6",
       optimizer: {
         enabled: true,
-        runs: 1
+        runs: 200
       },
       evmVersion: "petersburg"
     }

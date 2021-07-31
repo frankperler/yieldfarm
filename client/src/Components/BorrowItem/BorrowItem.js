@@ -7,7 +7,9 @@ import web3 from 'web3';
 
 function BorrowItem(props) {
 
-  const [borrowedAmount, setBorrowedAmount] = useState('0');
+  const [daiBorrowedAmount, setDaiBorrowedAmount] = useState('0');
+  const [ethBorrowedAmount, setEthBorrowedAmount] = useState('0');
+  const [usdtBorrowedAmount, setUsdtBorrowedAmount] = useState('0');
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
@@ -23,8 +25,8 @@ function BorrowItem(props) {
           </div>
           <input
             type="text"
-            value={borrowedAmount}
-            onChange={handleChange(setBorrowedAmount)}
+            value={daiBorrowedAmount}
+            onChange={handleChange(setDaiBorrowedAmount)}
             className="form-control form-control-lg"
             placeholder="0"
             required />
@@ -32,8 +34,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              await props.borrowTokens(amount)
+              amount = web3.utils.toWei(daiBorrowedAmount.toString(), 'Ether')
+              await props.borrowTokens(amount, "dai")
             }}>
             Borrow
           </button>
@@ -43,9 +45,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              console.log(amount)
-              await props.repayTokens(amount)
+              amount = web3.utils.toWei(daiBorrowedAmount.toString(), 'Ether')
+              await props.repayTokens(amount, "dai")
             }}>
             Repay
           </button>
@@ -54,7 +55,7 @@ function BorrowItem(props) {
             className="btn btn-secondary btn-block btn-lg"
             onClick={async (event) => {
               event.preventDefault()
-              await props.withdrawYield()
+              await props.withdrawYield("dai")
             }}>
             Withdraw
           </button>
@@ -67,8 +68,8 @@ function BorrowItem(props) {
           </div>
           <input
             type="text"
-            value={borrowedAmount}
-            onChange={handleChange(setBorrowedAmount)}
+            value={ethBorrowedAmount}
+            onChange={handleChange(setEthBorrowedAmount)}
             className="form-control form-control-lg"
             placeholder="0"
             required />
@@ -76,8 +77,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              await props.borrowTokens(amount)
+              amount = web3.utils.toWei(ethBorrowedAmount.toString(), 'Ether')
+              await props.borrowTokens(amount, "eth")
             }}>
             Borrow
           </button>
@@ -87,9 +88,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              console.log(amount)
-              await props.repayTokens(amount)
+              amount = web3.utils.toWei(ethBorrowedAmount.toString(), 'Ether')
+              await props.repayTokens(amount, "eth")
             }}>
             Repay
           </button>
@@ -98,7 +98,7 @@ function BorrowItem(props) {
             className="btn btn-secondary btn-block btn-lg"
             onClick={async (event) => {
               event.preventDefault()
-              await props.withdrawYield()
+              await props.withdrawYield("eth")
             }}>
             Withdraw
           </button>
@@ -111,8 +111,8 @@ function BorrowItem(props) {
           </div>
           <input
             type="text"
-            value={borrowedAmount}
-            onChange={handleChange(setBorrowedAmount)}
+            value={usdtBorrowedAmount}
+            onChange={handleChange(setUsdtBorrowedAmount)}
             className="form-control form-control-lg"
             placeholder="0"
             required />
@@ -120,8 +120,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              await props.borrowTokens(amount)
+              amount = web3.utils.toWei(usdtBorrowedAmount.toString(), 'Ether')
+              await props.borrowTokens(amount, "usdt")
             }}>
             Borrow
           </button>
@@ -131,9 +131,8 @@ function BorrowItem(props) {
             onClick={async (event) => {
               event.preventDefault()
               let amount;
-              amount = web3.utils.toWei(borrowedAmount.toString(), 'Ether')
-              console.log(amount)
-              await props.repayTokens(amount)
+              amount = web3.utils.toWei(usdtBorrowedAmount.toString(), 'Ether')
+              await props.repayTokens(amount, "usdt")
             }}>
             Repay
           </button>
@@ -142,7 +141,7 @@ function BorrowItem(props) {
             className="btn btn-secondary btn-block btn-lg"
             onClick={async (event) => {
               event.preventDefault()
-              await props.withdrawYield()
+              await props.withdrawYield("usdt")
             }}>
             Withdraw
           </button>

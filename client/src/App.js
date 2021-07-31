@@ -126,23 +126,35 @@ function App() {
       setEthBorrowedBalance(ethBorrowedBalance.toString())
       setUsdtBorrowedBalance(usdtBorrowedBalance.toString())
       //set borrowed balances
-      let daiLossBalance = await tokenFarm.methods.LossBalance(myAccount, "dai").call()
-      let ethLossBalance = await tokenFarm.methods.LossBalance(myAccount, "eth").call()
-      let usdtLossBalance = await tokenFarm.methods.LossBalance(myAccount, "usdt").call()
+      let daiLossBalance = await tokenFarm.methods.lossBalance(myAccount, "dai").call()
+      let ethLossBalance = await tokenFarm.methods.lossBalance(myAccount, "eth").call()
+      let usdtLossBalance = await tokenFarm.methods.lossBalance(myAccount, "usdt").call()
       setDaiLossBalance(daiLossBalance.toString())
       setEthLossBalance(ethLossBalance.toString())
       setUsdtLossBalance(usdtLossBalance.toString())
 
-      // start event listeners
 
       tokenFarm.events.Stake({}, (error, data) => {
         if (error) {
           console.log(error)
         } else {
-          setStakingBalance(data.returnValues.stakingBal)
-          setEarnedBalance(data.returnValues.intBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
+          if (data.returnValues.tok === "dai") {
+            console.log(data)
+            setDaiStakingBalance(data.returnValues.stakingBal)
+            setDaiEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setDaiTokenBalance(data.returnValues.daiBal)
+          } else if (data.returnValues.tok === "eth") {
+            setEthStakingBalance(data.returnValues.stakingBal)
+            setEthEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setEthTokenBalance(data.returnValues.ethBal)
+          } else {
+            setUsdtStakingBalance(data.returnValues.stakingBal)
+            setUsdtEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setUsdtTokenBalance(data.returnValues.usdtBal)
+          }
         }
       })
 
@@ -150,10 +162,23 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          setStakingBalance(data.returnValues.stakingBal)
-          setEarnedBalance(data.returnValues.intBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
+          if (data.returnValues.tok === "dai") {
+            console.log(data)
+            setDaiStakingBalance(data.returnValues.stakingBal)
+            setDaiEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setDaiTokenBalance(data.returnValues.daiBal)
+          } else if (data.returnValues.tok === "eth") {
+            setEthStakingBalance(data.returnValues.stakingBal)
+            setEthEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setEthTokenBalance(data.returnValues.ethBal)
+          } else {
+            setUsdtStakingBalance(data.returnValues.stakingBal)
+            setUsdtEarnedBalance(data.returnValues.intBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setUsdtTokenBalance(data.returnValues.usdtBal)
+          }
         }
       })
 
@@ -161,12 +186,28 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          setStakingBalance(data.returnValues.stakingBal)
-          setEarnedBalance(data.returnValues.intBal)
-          setBorrowedBalance(data.returnValues.borrowBal)
-          setLossBalance(data.returnValues.lossBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
+          if (data.returnValues.tok === "dai") {
+            setDaiStakingBalance(data.returnValues.stakingBal)
+            setDaiEarnedBalance(data.returnValues.intBal)
+            setDaiBorrowedBalance(data.returnValues.borrowBal)
+            setDaiLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setDaiTokenBalance(data.returnValues.daiBal)
+          } else if (data.returnValues.tok === "eth") {
+            setEthStakingBalance(data.returnValues.stakingBal)
+            setEthEarnedBalance(data.returnValues.intBal)
+            setEthBorrowedBalance(data.returnValues.borrowBal)
+            setEthLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setEthTokenBalance(data.returnValues.ethBal)
+          } else {
+            setUsdtStakingBalance(data.returnValues.stakingBal)
+            setUsdtEarnedBalance(data.returnValues.intBal)
+            setUsdtBorrowedBalance(data.returnValues.borrowBal)
+            setUsdtLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setUsdtTokenBalance(data.returnValues.usdtBal)
+          }
         }
       })
 
@@ -174,10 +215,23 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          setBorrowedBalance(data.returnValues.borrowBal)
-          setLossBalance(data.returnValues.lossBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
+          if (data.returnValues.tok === "dai") {
+            console.log(data)
+            setDaiBorrowedBalance(data.returnValues.borrowBal)
+            setDaiLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setDaiTokenBalance(data.returnValues.daiBal)
+          } else if (data.returnValues.tok === "eth") {
+            setEthBorrowedBalance(data.returnValues.borrowBal)
+            setEthLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setEthTokenBalance(data.returnValues.ethBal)
+          } else {
+            setUsdtBorrowedBalance(data.returnValues.borrowBal)
+            setUsdtLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setUsdtTokenBalance(data.returnValues.usdtBal)
+          }
         }
       })
 
@@ -185,10 +239,23 @@ function App() {
         if (error) {
           console.log(error)
         } else {
-          setBorrowedBalance(data.returnValues.borrowBal)
-          setLossBalance(data.returnValues.lossBal)
-          setTegTokenBalance(data.returnValues.tegBal)
-          setDaiTokenBalance(data.returnValues.daiBal)
+          if (data.returnValues.tok === "dai") {
+            console.log(data)
+            setDaiBorrowedBalance(data.returnValues.borrowBal)
+            setDaiLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setDaiTokenBalance(data.returnValues.daiBal)
+          } else if (data.returnValues.tok === "eth") {
+            setEthBorrowedBalance(data.returnValues.borrowBal)
+            setEthLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setEthTokenBalance(data.returnValues.ethBal)
+          } else {
+            setUsdtBorrowedBalance(data.returnValues.borrowBal)
+            setUsdtLossBalance(data.returnValues.lossBal)
+            setTegTokenBalance(data.returnValues.tegBal)
+            setUsdtTokenBalance(data.returnValues.usdtBal)
+          }
         }
       })
 
@@ -204,36 +271,68 @@ function App() {
       daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
         tokenFarm.methods.stakeTokens(amount, token).send({ from: account })
       })
+    } else if (token === 'eth') {
+      ethToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.stakeTokens(amount, token).send({ from: account })
+      })
+    } else {
+      usdtToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.stakeTokens(amount, token).send({ from: account })
+      })
     }
   }
 
-  const unstakeTokens = (amount) => {
-    tokenFarm.methods.unstakeTokens(amount).send({ from: account })
+  const unstakeTokens = (amount, token) => {
+    tokenFarm.methods.unstakeTokens(amount, token).send({ from: account })
   }
 
-  const withdrawYield = () => {
-    tokenFarm.methods.withdrawYield().send({ from: account })
+  const withdrawYield = (token) => {
+    tokenFarm.methods.withdrawYield(token).send({ from: account })
   }
 
-  const borrowTokens = (amount) => {
-    tokenFarm.methods.borrowTokens(amount).send({ from: account })
+  const borrowTokens = (amount, token) => {
+    tokenFarm.methods.borrowTokens(amount, token).send({ from: account })
   }
 
-  const repayTokens = (amount) => {
-    daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
-      tokenFarm.methods.repayTokens(amount).send({ from: account })
-    })
+  const repayTokens = (amount, token) => {
+    if (token === 'dai') {
+      daiToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.repayTokens(amount, token).send({ from: account })
+      })
+    } else if (token === 'eth') {
+      ethToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.repayTokens(amount, token).send({ from: account })
+      })
+    } else {
+      usdtToken.methods.approve(tokenFarm._address, amount).send({ from: account }).on('transactionHash', (hash) => {
+        tokenFarm.methods.repayTokens(amount, token).send({ from: account })
+      })
+    }
   }
 
   return (account ? <div className="body">
     <Navigationbar account={account} />
     <Main
       daiTokenBalance={daiTokenBalance}
+      ethTokenBalance={ethTokenBalance}
+      usdtTokenBalance={usdtTokenBalance}
       tegTokenBalance={tegTokenBalance}
-      stakingBalance={stakingBalance}
-      earnedBalance={earnedBalance}
-      borrowedBalance={borrowedBalance}
-      lossBalance={lossBalance}
+
+      daiStakingBalance={daiStakingBalance}
+      ethStakingBalance={ethStakingBalance}
+      usdtStakingBalance={usdtStakingBalance}
+
+      daiEarnedBalance={daiEarnedBalance}
+      ethEarnedBalance={ethEarnedBalance}
+      usdtEarnedBalance={usdtEarnedBalance}
+
+      daiBorrowedBalance={daiBorrowedBalance}
+      ethBorrowedBalance={ethBorrowedBalance}
+      usdtBorrowedBalance={usdtBorrowedBalance}
+
+      daiLossBalance={daiLossBalance}
+      ethLossBalance={ethLossBalance}
+      usdtLossBalance={usdtLossBalance}
 
       withdrawYield={withdrawYield}
       stakeTokens={stakeTokens}

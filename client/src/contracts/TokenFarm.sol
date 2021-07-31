@@ -27,31 +27,13 @@ contract TokenFarm {
     mapping(address => mapping(string => uint256)) public earnedTime;
     mapping(address => mapping(string => uint256)) public borrowedTime;
 
-    // //eth
-    // mapping(address => uint256) public ethStakingBalance;
-    // mapping(address => uint256) public ethLossBalance;
-    // mapping(address => uint256) public ethEarnedBalance;
-    // mapping(address => uint256) public ethBorrowedBalance;
-    // mapping(address => bool) public isStakingEth;
-    // mapping(address => bool) public isBorrowingEth;
-    // mapping(address => uint256) public earnedTimeEth;
-    // mapping(address => uint256) public borrowedTimeEth;
-
-    // //usdt
-    // mapping(address => uint256) public usdtStakingBalance;
-    // mapping(address => uint256) public usdtLossBalance;
-    // mapping(address => uint256) public usdtEarnedBalance;
-    // mapping(address => uint256) public usdtBorrowedBalance;
-    // mapping(address => bool) public isStakingUsdt;
-    // mapping(address => bool) public isBorrowingUsdt;
-    // mapping(address => uint256) public earnedTimeUsdt;
-    // mapping(address => uint256) public borrowedTimeUsdt;
-
     event Stake(
         address indexed from,
         uint256 amount,
+        string tok,
         uint256 stakingBal,
         uint256 intBal,
+        uint256 intTime,
         uint256 tegBal,
         uint256 daiBal,
         uint256 ethBal,
@@ -59,23 +41,11 @@ contract TokenFarm {
     );
     event Unstake(
         address indexed from,
-        uint256 amount,
+        uint256 unstakeAmount,
+        uint256 yieldAmount,
+        string tok,
         uint256 stakingBal,
         uint256 intBal,
-        uint256 tegBal,
-        uint256 daiBal,
-        uint256 ethBal,
-        uint256 usdtBal
-    );
-
-    event YieldWithdraw(
-        address indexed to,
-        uint256 amountEarned,
-        uint256 amountLost,
-        uint256 stakingBal,
-        uint256 intBal,
-        uint256 borrowBal,
-        uint256 lossBal,
         uint256 tegBal,
         uint256 daiBal,
         uint256 ethBal,
@@ -85,6 +55,7 @@ contract TokenFarm {
     event Borrow(
         address indexed from,
         uint256 amount,
+        string tok,
         uint256 borrowBal,
         uint256 lossBal,
         uint256 tegBal,
@@ -95,7 +66,24 @@ contract TokenFarm {
 
     event Repay(
         address indexed from,
-        uint256 amount,
+        uint256 repayAmount,
+        uint256 yieldAmount,
+        string tok,
+        uint256 borrowBal,
+        uint256 lossBal,
+        uint256 tegBal,
+        uint256 daiBal,
+        uint256 ethBal,
+        uint256 usdtBal
+    );
+
+    event YieldWithdraw(
+        address indexed to,
+        string tok,
+        uint256 amountEarned,
+        uint256 amountLost,
+        uint256 stakingBal,
+        uint256 intBal,
         uint256 borrowBal,
         uint256 lossBal,
         uint256 tegBal,
@@ -125,8 +113,9 @@ contract TokenFarm {
         if (isStaking[msg.sender][_tok] == true) {
             uint256 toTransfer = Helpers.calculateEarningYield(
                 earnedTime[msg.sender][_tok],
-                earnedBalance[msg.sender][_tok]
+                stakingBalance[msg.sender][_tok]
             );
+            
             earnedBalance[msg.sender][_tok] += toTransfer;
         }
         // Transfer to contract for staking
@@ -150,8 +139,10 @@ contract TokenFarm {
         emit Stake(
             msg.sender,
             _amount,
+            _tok,
             stakingBalance[msg.sender][_tok],
             earnedBalance[msg.sender][_tok],
+            earnedTime[msg.sender][_tok],
             tegToken.balanceOf(msg.sender),
             daiToken.balanceOf(msg.sender),
             ethToken.balanceOf(msg.sender),
@@ -171,8 +162,10 @@ contract TokenFarm {
 
         uint256 yieldTransfer = Helpers.calculateEarningYield(
             earnedTime[msg.sender][_tok],
-            earnedBalance[msg.sender][_tok]
+            stakingBalance[msg.sender][_tok]
         );
+
+        earnedBalance[msg.sender][_tok] += yieldTransfer;
         earnedTime[msg.sender][_tok] = block.timestamp;
         uint256 balanceTransfer = _amount;
         _amount = 0;
@@ -188,7 +181,6 @@ contract TokenFarm {
             usdtToken.transfer(msg.sender, balanceTransfer);
         }
 
-        earnedBalance[msg.sender][_tok] += yieldTransfer;
         // is he still staking?
         //update staking status
         if (stakingBalance[msg.sender][_tok] == 0) {
@@ -196,7 +188,9 @@ contract TokenFarm {
         }
         emit Unstake(
             msg.sender,
-            _amount,
+            balanceTransfer,
+            yieldTransfer,
+            _tok,
             stakingBalance[msg.sender][_tok],
             earnedBalance[msg.sender][_tok],
             tegToken.balanceOf(msg.sender),
@@ -243,6 +237,7 @@ contract TokenFarm {
         emit Borrow(
             msg.sender,
             _amount,
+            _tok,
             borrowedBalance[msg.sender][_tok],
             lossBalance[msg.sender][_tok],
             tegToken.balanceOf(msg.sender),
@@ -263,6 +258,7 @@ contract TokenFarm {
             borrowedTime[msg.sender][_tok],
             borrowedBalance[msg.sender][_tok]
         );
+
         borrowedTime[msg.sender][_tok] = block.timestamp;
         uint256 balanceTransfer = _amount;
         _amount = 0;
@@ -288,7 +284,9 @@ contract TokenFarm {
         }
         emit Repay(
             msg.sender,
-            _amount,
+            balanceTransfer,
+            yieldTransfer,
+            _tok,
             borrowedBalance[msg.sender][_tok],
             lossBalance[msg.sender][_tok],
             tegToken.balanceOf(msg.sender),
@@ -337,6 +335,7 @@ contract TokenFarm {
         tegToken.transfer(msg.sender, toTransferEarned - toTransferLost);
         emit YieldWithdraw(
             msg.sender,
+            _tok,
             toTransferEarned,
             toTransferLost,
             stakingBalance[msg.sender][_tok],

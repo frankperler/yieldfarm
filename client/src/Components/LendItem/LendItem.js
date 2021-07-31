@@ -7,7 +7,9 @@ import web3 from 'web3';
 
 function LendItem(props) {
 
-  const [stakedAmount, setStakedAmount] = useState('0');
+  const [daiLendAmount, setDaiLendAmount] = useState('0');
+  const [ethLendAmount, setEthLendAmount] = useState('0');
+  const [usdtLendAmount, setUsdtLendAmount] = useState('0');
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
@@ -23,8 +25,8 @@ function LendItem(props) {
         </div>
         <input
           type="text"
-          value={stakedAmount}
-          onChange={handleChange(setStakedAmount)}
+          value={daiLendAmount}
+          onChange={handleChange(setDaiLendAmount)}
           className="form-control form-control-lg"
           placeholder="0"
           required />
@@ -32,8 +34,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.stakeTokens(amount)
+            amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
+            await props.stakeTokens(amount, "dai")
           }}>
           Lend
         </button>
@@ -43,8 +45,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount)
+            amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
+            await props.unstakeTokens(amount, "dai")
           }}>
           Unstake
         </button>
@@ -53,7 +55,7 @@ function LendItem(props) {
           className="btn btn-secondary btn-block btn-lg"
           onClick={async (event) => {
             event.preventDefault()
-            await props.withdrawYield()
+            await props.withdrawYield("dai")
           }}>
           Withdraw
         </button>
@@ -66,8 +68,8 @@ function LendItem(props) {
         </div>
         <input
           type="text"
-          value={stakedAmount}
-          onChange={handleChange(setStakedAmount)}
+          value={ethLendAmount}
+          onChange={handleChange(setEthLendAmount)}
           className="form-control form-control-lg"
           placeholder="0"
           required />
@@ -75,8 +77,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.stakeTokens(amount)
+            amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
+            await props.stakeTokens(amount, "eth")
           }}>
           Lend
         </button>
@@ -86,8 +88,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount)
+            amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
+            await props.unstakeTokens(amount, "eth")
           }}>
           Unstake
         </button>
@@ -96,7 +98,7 @@ function LendItem(props) {
           className="btn btn-secondary btn-block btn-lg"
           onClick={async (event) => {
             event.preventDefault()
-            await props.withdrawYield()
+            await props.withdrawYield("eth")
           }}>
           Withdraw
         </button>
@@ -109,8 +111,8 @@ function LendItem(props) {
         </div>
         <input
           type="text"
-          value={stakedAmount}
-          onChange={handleChange(setStakedAmount)}
+          value={usdtLendAmount}
+          onChange={handleChange(setUsdtLendAmount)}
           className="form-control form-control-lg"
           placeholder="0"
           required />
@@ -118,8 +120,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.stakeTokens(amount)
+            amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
+            await props.stakeTokens(amount, "usdt")
           }}>
           Lend
         </button>
@@ -129,8 +131,8 @@ function LendItem(props) {
           onClick={async (event) => {
             event.preventDefault()
             let amount;
-            amount = web3.utils.toWei(stakedAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount)
+            amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
+            await props.unstakeTokens(amount, "usdt")
           }}>
           Unstake
         </button>
@@ -139,7 +141,7 @@ function LendItem(props) {
           className="btn btn-secondary btn-block btn-lg"
           onClick={async (event) => {
             event.preventDefault()
-            await props.withdrawYield()
+            await props.withdrawYield("usdt")
           }}>
           Withdraw
         </button>

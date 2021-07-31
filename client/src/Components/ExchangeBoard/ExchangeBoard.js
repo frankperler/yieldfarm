@@ -2,7 +2,6 @@ import { React } from 'react'
 import './ExchangeBoard.css';
 import LendBoard from '../LendBoard/LendBoard'
 import BorrowBoard from '../BorrowBoard/BorrowBoard'
-import web3 from 'web3';
 
 function ExchangeBoard(props) {
 
@@ -14,9 +13,6 @@ function ExchangeBoard(props) {
         stakeTokens={props.stakeTokens}
         withdrawYield={props.withdrawYield}
 
-      // setStakingBalance={props.setStakingBalance}
-      // setEarnedBalance={props.setEarnedBalance}
-      // daiTokenBalance={props.daiTokenBalance}
       />
       <BorrowBoard
         borrowTokens={props.borrowTokens}

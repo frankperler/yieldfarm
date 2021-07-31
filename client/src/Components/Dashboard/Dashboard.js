@@ -24,27 +24,27 @@ function Dashboard(props) {
         <tbody>
           <tr>
             <td><img src={dai}></img></td>
-            <td>{web3.utils.fromWei(props.stakingBalance, 'Ether')} DAI</td>
-            <td>{web3.utils.fromWei(props.borrowedBalance, 'Ether')} DAI</td>
+            <td>{web3.utils.fromWei(props.daiStakingBalance, 'Ether')} DAI</td>
+            <td>{web3.utils.fromWei(props.daiBorrowedBalance, 'Ether')} DAI</td>
             <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} DAI</td>
-            <td>{web3.utils.fromWei(props.earnedBalance, 'Ether')} TEG</td>
-            <td>{web3.utils.fromWei(props.lossBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.daiEarnedBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.daiLossBalance, 'Ether')} TEG</td>
           </tr>
           <tr>
             <td><img src={eth}></img></td>
-            <td>{web3.utils.fromWei(props.stakingBalance, 'Ether')} ETH</td>
-            <td>{web3.utils.fromWei(props.borrowedBalance, 'Ether')} ETH</td>
-            <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} ETH</td>
-            <td>{web3.utils.fromWei(props.earnedBalance, 'Ether')} TEG</td>
-            <td>{web3.utils.fromWei(props.lossBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.ethStakingBalance, 'Ether')} ETH</td>
+            <td>{web3.utils.fromWei(props.ethBorrowedBalance, 'Ether')} ETH</td>
+            <td>{web3.utils.fromWei(props.ethTokenBalance, 'Ether')} ETH</td>
+            <td>{web3.utils.fromWei(props.ethEarnedBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.ethLossBalance, 'Ether')} TEG</td>
           </tr>
           <tr>
             <td><img src={usdt}></img></td>
-            <td>{web3.utils.fromWei(props.stakingBalance, 'Ether')} USDT</td>
-            <td>{web3.utils.fromWei(props.borrowedBalance, 'Ether')} USDT</td>
-            <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} USDT</td>
-            <td>{web3.utils.fromWei(props.earnedBalance, 'Ether')} TEG</td>
-            <td>{web3.utils.fromWei(props.lossBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.usdtStakingBalance, 'Ether')} USDT</td>
+            <td>{web3.utils.fromWei(props.usdtBorrowedBalance, 'Ether')} USDT</td>
+            <td>{web3.utils.fromWei(props.usdtTokenBalance, 'Ether')} USDT</td>
+            <td>{web3.utils.fromWei(props.usdtEarnedBalance, 'Ether')} TEG</td>
+            <td>{web3.utils.fromWei(props.usdtLossBalance, 'Ether')} TEG</td>
           </tr>
         </tbody>
       </table>
