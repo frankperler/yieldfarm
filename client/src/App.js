@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react'
-import Web3 from 'web3'
 import { loadWeb3 } from './Service/Web3Service'
 import Navigationbar from './Components/Navbar/Navbar'
 import Main from './Components/Main/Main'
@@ -163,7 +162,6 @@ function App() {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            console.log(data)
             setDaiStakingBalance(data.returnValues.stakingBal)
             setDaiEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
@@ -216,7 +214,6 @@ function App() {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            console.log(data)
             setDaiBorrowedBalance(data.returnValues.borrowBal)
             setDaiLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
@@ -240,7 +237,6 @@ function App() {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            console.log(data)
             setDaiBorrowedBalance(data.returnValues.borrowBal)
             setDaiLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)

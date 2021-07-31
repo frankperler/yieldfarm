@@ -1,10 +1,7 @@
-import { React, useState } from 'react'
+import { React } from 'react'
 import Dashboard from '../Dashboard/Dashboard'
 import ExchangeBoard from '../ExchangeBoard/ExchangeBoard'
 import './Main.css';
-import web3 from 'web3'
-
-
 
 function Main(props) {
 

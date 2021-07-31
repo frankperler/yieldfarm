@@ -1,10 +1,9 @@
-import { React, useEffect, useState } from 'react'
+import { React } from 'react'
 import './Dashboard.css';
 import dai from '../../dai.png'
 import eth from '../../eth-logo.png'
 import usdt from '../../tether.png'
 import web3 from 'web3';
-import farmer from '../../randymarsh.png'
 
 function Dashboard(props) {
 
@@ -23,7 +22,7 @@ function Dashboard(props) {
         </thead>
         <tbody>
           <tr>
-            <td><img src={dai}></img></td>
+            <td><img alt ="" src={dai}></img></td>
             <td>{web3.utils.fromWei(props.daiStakingBalance, 'Ether')} DAI</td>
             <td>{web3.utils.fromWei(props.daiBorrowedBalance, 'Ether')} DAI</td>
             <td>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} DAI</td>
@@ -31,7 +30,7 @@ function Dashboard(props) {
             <td>{web3.utils.fromWei(props.daiLossBalance, 'Ether')} TEG</td>
           </tr>
           <tr>
-            <td><img src={eth}></img></td>
+            <td><img alt="" src={eth}></img></td>
             <td>{web3.utils.fromWei(props.ethStakingBalance, 'Ether')} ETH</td>
             <td>{web3.utils.fromWei(props.ethBorrowedBalance, 'Ether')} ETH</td>
             <td>{web3.utils.fromWei(props.ethTokenBalance, 'Ether')} ETH</td>
@@ -39,7 +38,7 @@ function Dashboard(props) {
             <td>{web3.utils.fromWei(props.ethLossBalance, 'Ether')} TEG</td>
           </tr>
           <tr>
-            <td><img src={usdt}></img></td>
+            <td><img alt="" src={usdt}></img></td>
             <td>{web3.utils.fromWei(props.usdtStakingBalance, 'Ether')} USDT</td>
             <td>{web3.utils.fromWei(props.usdtBorrowedBalance, 'Ether')} USDT</td>
             <td>{web3.utils.fromWei(props.usdtTokenBalance, 'Ether')} USDT</td>
