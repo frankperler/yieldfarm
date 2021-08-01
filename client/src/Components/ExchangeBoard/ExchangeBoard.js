@@ -8,7 +8,7 @@ function ExchangeBoard(props) {
   return (
 
     <div>
-      <Typography component="h2" variant="h5" color="primary" gutterBottom align="left">Exchange Board</Typography>
+      <Typography component="h2" variant="h5" color="secondary" gutterBottom align="left">Exchange Board</Typography>
       <ExchangeItems
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}

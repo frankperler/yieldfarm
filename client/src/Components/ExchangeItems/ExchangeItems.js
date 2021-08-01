@@ -4,199 +4,371 @@ import dai from '../../dai.png'
 import eth from '../../eth-logo.png'
 import usdt from '../../tether.png'
 import web3 from 'web3';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
 
 function ExchangeItems(props) {
 
-  const [daiAmount, setDaiAmount] = useState('0');
-  const [ethAmount, setEthAmount] = useState('0');
-  const [usdtAmount, setUsdtAmount] = useState('0');
+  const [daiLendAmount, setDaiLendAmount] = useState('0');
+  const [ethLendAmount, setEthLendAmount] = useState('0');
+  const [usdtLendAmount, setUsdtLendAmount] = useState('0');
+  const [daiBorrowAmount, setDaiBorrowAmount] = useState('0');
+  const [ethBorrowAmount, setEthBorrowAmount] = useState('0');
+  const [usdtBorrowAmount, setUsdtBorrowAmount] = useState('0');
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
   }
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(2),
+      },
+      margin: {
+        margin: theme.spacing(3),
+      }
+    }
+  }));
+
+  const classes = useStyles();
+
   return (
-    <div className="form">
 
-      <form>
-        <img src={dai} height='32' alt="" />
-        <input
-          type="text"
-          value={daiAmount}
-          onChange={handleChange(setDaiAmount)}
-          className="form-control form-control-lg"
-          placeholder="0"
-          required />
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(daiAmount.toString(), 'Ether')
-            await props.stakeTokens(amount, "dai")
-          }}>
-          Lend
-        </button>
-        <button
-          type="submit"
-          className="btn btn-danger btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(daiAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount, "dai")
-          }}>
-          Unstake
-        </button>
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-            onClick={async (event) => {
-              event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(daiAmount.toString(), 'Ether')
-              await props.borrowTokens(amount, "dai")
-            }}>
-            Borrow
-          </button>
-          <button
-            type="submit"
-            className="btn btn-danger btn-block btn-lg"
-            onClick={async (event) => {
-              event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(daiAmount.toString(), 'Ether')
-              await props.repayTokens(amount, "dai")
-            }}>
-            Repay
-          </button>
-        <button
-          type="submit"
-          className="btn btn-secondary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            await props.withdrawYield("dai")
-          }}>
-          Withdraw
-        </button>
-      </form>
+    <div className="exchangeBoard">
+      <div className="daiForm">
 
-      <form className="mb-3">
-        <img src={eth} height='32' alt="" />
-        <input
-          type="text"
-          value={ethAmount}
-          onChange={handleChange(setEthAmount)}
-          className="form-control form-control-lg"
-          placeholder="0"
-          required />
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(ethAmount.toString(), 'Ether')
-            await props.stakeTokens(amount, "eth")
-          }}>
-          Lend
-        </button>
-        <button
-          type="submit"
-          className="btn btn-danger btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(ethAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount, "eth")
-          }}>
-          Unstake
-        </button>
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-            onClick={async (event) => {
-              event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(ethAmount.toString(), 'Ether')
-              await props.borrowTokens(amount, "eth")
-            }}>
-            Borrow
-          </button>
-          <button
-            type="submit"
-            className="btn btn-danger btn-block btn-lg"
-            onClick={async (event) => {
-              event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(ethAmount.toString(), 'Ether')
-              await props.repayTokens(amount, "eth")
-            }}>
-            Repay
-          </button>
-        <button
-          type="submit"
-          className="btn btn-secondary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            await props.withdrawYield("eth")
-          }}>
-          Withdraw
-        </button>
-      </form>
+        <div className="daiLend">
 
-      <form className="mb-3">
-        <img src={usdt} height='32' alt="" />
-        <input
-          type="text"
-          value={usdtAmount}
-          onChange={handleChange(setUsdtAmount)}
-          className="form-control form-control-lg"
-          placeholder="0"
-          required />
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(usdtAmount.toString(), 'Ether')
-            await props.stakeTokens(amount, "usdt")
-          }}>
-          Lend
-        </button>
-        <button
-          type="submit"
-          className="btn btn-danger btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            let amount;
-            amount = web3.utils.toWei(usdtAmount.toString(), 'Ether')
-            await props.unstakeTokens(amount, "usdt")
-          }}>
-          Unstake
-        </button>
-        <button type="submit" className="btn btn-primary btn-block btn-lg"
-            onClick={async (event) => {
-              event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(usdtAmount.toString(), 'Ether')
-              await props.borrowTokens(amount, "usdt")
-            }}>
-            Borrow
-          </button>
-          <button
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">DAI</InputLabel>
+            <Input
+              id="dai-input-with-icon-adornment"
+              value={daiLendAmount}
+              onChange={handleChange(setDaiLendAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={dai} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
+                await props.stakeTokens(amount, "dai")
+              }}
+            >
+              Lend
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
+                await props.unstakeTokens(amount, "dai")
+              }}
+            >
+              Unstake
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="daiBorrow">
+
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">DAI</InputLabel>
+            <Input
+              id="dai-input-with-icon-adornment"
+              value={daiBorrowAmount}
+              onChange={handleChange(setDaiBorrowAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={dai} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(daiBorrowAmount.toString(), 'Ether')
+                await props.borrowTokens(amount, "dai")
+              }}
+            >
+              Borrow
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(daiBorrowAmount.toString(), 'Ether')
+                await props.repayTokens(amount, "dai")
+              }}
+            >
+              Repay
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="daiWithdraw">
+          <Button
+            variant="outlined"
+            size="medium"
+            color="secondary"
+            className={classes.margin}
             type="submit"
-            className="btn btn-danger btn-block btn-lg"
             onClick={async (event) => {
               event.preventDefault()
-              let amount;
-              amount = web3.utils.toWei(usdtAmount.toString(), 'Ether')
-              await props.repayTokens(amount, "usdt")
-            }}>
-            Repay
-          </button>
-        <button
-          type="submit"
-          className="btn btn-secondary btn-block btn-lg"
-          onClick={async (event) => {
-            event.preventDefault()
-            await props.withdrawYield("usdt")
-          }}>
-          Withdraw
-        </button>
-      </form>
+              await props.withdrawYield("dai")
+            }}
+          >
+            Withdraw
+          </Button>
+        </div>
+
+      </div>
+
+      <div className="ethForm">
+
+        <div className="ethLend">
+
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">ETH</InputLabel>
+            <Input
+              id="eth-input-with-icon-adornment"
+              value={ethLendAmount}
+              onChange={handleChange(setEthLendAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={eth} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
+                await props.stakeTokens(amount, "eth")
+              }}
+            >
+              Lend
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
+                await props.unstakeTokens(amount, "eth")
+              }}
+            >
+              Unstake
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="ethBorrow">
+
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">ETH</InputLabel>
+            <Input
+              id="eth-input-with-icon-adornment"
+              value={ethBorrowAmount}
+              onChange={handleChange(setEthBorrowAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={eth} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(ethBorrowAmount.toString(), 'Ether')
+                await props.borrowTokens(amount, "eth")
+              }}
+            >
+              Borrow
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(ethBorrowAmount.toString(), 'Ether')
+                await props.repayTokens(amount, "eth")
+              }}
+            >
+              Repay
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="ethWithdraw">
+          <Button
+            variant="outlined"
+            size="medium"
+            color="secondary"
+            className={classes.margin}
+            type="submit"
+            onClick={async (event) => {
+              event.preventDefault()
+              await props.withdrawYield("eth")
+            }}
+          >
+            Withdraw
+          </Button>
+        </div>
+      </div>
+
+      <div className="usdtForm">
+
+        <div className="usdtLend">
+
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">USDT</InputLabel>
+            <Input
+              id="usdt-input-with-icon-adornment"
+              value={usdtLendAmount}
+              onChange={handleChange(setUsdtLendAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={usdt} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
+                await props.stakeTokens(amount, "usdt")
+              }}
+            >
+              Lend
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
+                await props.unstakeTokens(amount, "usdt")
+              }}
+            >
+              Unstake
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="usdtBorrow">
+
+          <FormControl className={classes.margin}>
+            <InputLabel htmlFor="input-with-icon-adornment">USDT</InputLabel>
+            <Input
+              id="usdt-input-with-icon-adornment"
+              value={usdtBorrowAmount}
+              onChange={handleChange(setUsdtBorrowAmount)}
+              startAdornment={
+                <InputAdornment position="start">
+                  <img src={usdt} height='20' alt="" />
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            aria-label="vertical contained primary button group"
+            variant="text"
+          >
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(usdtBorrowAmount.toString(), 'Ether')
+                await props.borrowTokens(amount, "usdt")
+              }}
+            >
+              Borrow
+            </Button>
+            <Button
+              onClick={async (event) => {
+                event.preventDefault()
+                let amount;
+                amount = web3.utils.toWei(usdtBorrowAmount.toString(), 'Ether')
+                await props.repayTokens(amount, "usdt")
+              }}
+            >
+              Repay
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <div className="usdtWithdraw">
+          <Button
+            variant="outlined"
+            size="medium"
+            color="secondary"
+            className={classes.margin}
+            type="submit"
+            onClick={async (event) => {
+              event.preventDefault()
+              await props.withdrawYield("usdt")
+            }}
+          >
+            Withdraw
+          </Button>
+        </div>
+      </div>
 
     </div>
 

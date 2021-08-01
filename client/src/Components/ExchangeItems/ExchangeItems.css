@@ -1,32 +1,93 @@
-form {
+.exchangeBoard {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.daiForm {
+  display: flex;
   justify-content: space-evenly;
-  margin: 2rem;
-  width: 80%;
-  padding: 1rem;
+  margin-bottom: 3rem;
 }
 
-.form {
-  width: 100%
+.dai {
+  display: flex;
+  flex-direction: row;
+  text-align:center;
+  justify-content: space-between;
 }
 
-.input-group-text {
-  margin: 0.2rem
+.daiLend Button {
+  margin-left: 2rem;
+  height: 2rem;
 }
 
-input {
-  margin: 0.2rem
+.daiBorrow Button {
+  margin-left: 2rem;
+  height: 2rem;
 }
 
-button {
-  margin: 0.2rem;
-  width: 8rem;
-  height: 3rem;
+.daiWithdraw Button {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  height: 2rem;
 }
 
-form img  {
-  margin: 0.2rem;
-  height: 3rem;
-  width: 3rem;
+.ethForm {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 3rem;
+}
+
+.eth {
+  display: flex;
+  flex-direction: row;
+  text-align:center;
+  justify-content: space-between;
+}
+
+.ethLend Button {
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+.ethBorrow Button {
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+.ethWithdraw Button {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+.usdtForm {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+
+.usdt {
+  display: flex;
+  flex-direction: row;
+  text-align:center;
+  justify-content: space-between;
+}
+
+.usdtLend Button {
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+.usdtBorrow Button {
+  margin-left: 2rem;
+  height: 2rem;
+}
+
+.usdtWithdraw Button {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  height: 2rem;
 }
