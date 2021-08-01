@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import App from '../../App'
 import Button from '@material-ui/core/Button';
-// import Connection from "../../MetaMaskConnection";
+
+const Moralis = require('moralis');
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -19,34 +20,41 @@ import Button from '@material-ui/core/Button';
 // work properly.
 export default function LandingPage() {
 
-  return (
-    <h1>Test</h1>
-    // <Router>
-    //   <div>
-    //     <Button>
-    //       <Link to="/">Home</Link>
-    //     </Button>
-    //     <Button>
-    //       <Link to="/home">App</Link>
-    //     </Button>
-    //     <hr />
+  Moralis.initialize("gVyAd0mUU5Em5dn9DLEsPzUdzgMovzTti4j4wxCm"); // Application id from moralis.io
+  Moralis.serverURL = "https://mzno7pj1kyf6.usemoralis.com:2053/server";
 
-    //     {/*
-    //       A <Switch> looks through all its children <Route>
-    //       elements and renders the first one whose path
-    //       matches the current URL. Use a <Switch> any time
-    //       you have multiple routes, but you want only one
-    //       of them to render at a time
-    //     */}
-    //     <Switch>
-    //       <Route exact path="/">
-    //         <LandingPage />
-    //       </Route>
-    //       <Route path="/home">
-    //         <App />
-    //       </Route>
-    //     </Switch>
-    //   </div>
-    // </Router>
+  return (
+    <Router>
+      <div>
+        <Button>
+          <Link to="/">Home</Link>
+        </Button>
+        <Button
+          onClick={async () => {
+            let user = await Moralis.Web3.authenticate();
+            if(user) console.log(user)
+          }}
+        >
+          <Link to="/home">App</Link>
+        </Button>
+        <hr />
+
+        {/*
+          A <Switch> looks through all its children <Route>
+          elements and renders the first one whose path
+          matches the current URL. Use a <Switch> any time
+          you have multiple routes, but you want only one
+          of them to render at a time
+        */}
+        <Switch>
+          <Route exact path="/">
+            <h1>You should log in with Metamask</h1>
+          </Route>
+          <Route path="/home">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }

@@ -361,7 +361,7 @@ function App() {
         </div>
       </ThemeProvider>
       :
-      <p>Loading...</p>
+      <LandingPage />
   );
 
 }
