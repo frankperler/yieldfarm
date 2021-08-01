@@ -33,16 +33,20 @@ function Dashboard(props) {
     <Typography component="h2" variant="h5" color="primary" gutterBottom align="left">Dashboard</Typography>
       <Table size="medium">
         <colgroup>
-          <col width="16.6%" />
-          <col width="16.6%" />
-          <col width="16.6%%" />
-          <col width="16.6%%" />
-          <col width="16.6%%" />
-          <col width="16.6%%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="14%" />
+          <col width="14%" />
+          <col width="14%" />
+          <col width="14%" />
+          <col width="14%" />
         </colgroup>
         <TableHead color="secondary">
           <TableRow className={classes.titleColor}>
             <TableCell>Asset</TableCell>
+            <TableCell>APY / Earned</TableCell>
+            <TableCell>APY / Accrued</TableCell>
             <TableCell>Staked Balance</TableCell>
             <TableCell>Borrowed Balance</TableCell>
             <TableCell>Wallet Balance</TableCell>
@@ -53,6 +57,8 @@ function Dashboard(props) {
         <TableBody className={classes.rowColor}>
           <TableRow key="1">
             <TableCell>{<img alt="" src={dai}></img>}</TableCell>
+            <TableCell>100%</TableCell>
+            <TableCell>110%</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiStakingBalance, 'Ether')} DAI</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiBorrowedBalance, 'Ether')} DAI</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} DAI</TableCell>
@@ -61,6 +67,8 @@ function Dashboard(props) {
           </TableRow>
           <TableRow key="2">
             <TableCell>{<img alt="" src={eth}></img>}</TableCell>
+            <TableCell>100%</TableCell>
+            <TableCell>110%</TableCell>
             <TableCell>{web3.utils.fromWei(props.ethStakingBalance, 'Ether')} ETH</TableCell>
             <TableCell>{web3.utils.fromWei(props.ethBorrowedBalance, 'Ether')} ETH</TableCell>
             <TableCell>{web3.utils.fromWei(props.ethTokenBalance, 'Ether')} ETH</TableCell>
@@ -69,6 +77,8 @@ function Dashboard(props) {
           </TableRow>
           <TableRow key="3">
             <TableCell>{<img alt="" src={usdt}></img>}</TableCell>
+            <TableCell>100%</TableCell>
+            <TableCell>110%</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiStakingBalance, 'Ether')} USDT</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiBorrowedBalance, 'Ether')} USDT</TableCell>
             <TableCell>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} USDT</TableCell>

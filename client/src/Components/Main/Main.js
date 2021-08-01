@@ -28,7 +28,7 @@ function Main(props) {
     <div id="content" className={classes.root}>
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={8} lg={9}>
+          <Grid item xs={12}>
             <Paper className={classes.paper}>
               <Dashboard
                 daiTokenBalance={props.daiTokenBalance}
@@ -49,12 +49,7 @@ function Main(props) {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} md={4} lg={3}>
-            <Paper>
-              <TegBox tegTokenBalance={props.tegTokenBalance} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={8} lg={9}>
             <Paper className={classes.paper}>
               <ExchangeBoard
                 unstakeTokens={props.unstakeTokens}
@@ -63,6 +58,11 @@ function Main(props) {
                 borrowTokens={props.borrowTokens}
                 repayTokens={props.repayTokens}
               />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4} lg={3}>
+            <Paper>
+              <TegBox tegTokenBalance={props.tegTokenBalance} />
             </Paper>
           </Grid>
         </Grid>

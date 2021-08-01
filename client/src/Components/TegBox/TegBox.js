@@ -16,12 +16,10 @@ export default function TegBox(props) {
 
   return (
     <>
-      <Box>
-        <Typography>TEG Wallet Balance</Typography>
-        <Typography component="p" variant="h4">
-          {web3.utils.fromWei(props.tegTokenBalance, 'Ether')} TEG
-        </Typography>
-      </Box>
+      <Typography component="h2" variant="h5" color="primary" gutterBottom align="left">TEG Wallet</Typography>
+      <Typography component="p" variant="h4" color="secondary">
+        {web3.utils.fromWei(props.tegTokenBalance, 'Ether')} TEG
+      </Typography>
     </>
   );
 }

@@ -1,24 +1,20 @@
 import { React } from 'react'
 import './ExchangeBoard.css';
-import LendBoard from '../LendBoard/LendBoard'
-import BorrowBoard from '../BorrowBoard/BorrowBoard'
+import ExchangeItems from '../ExchangeItems/ExchangeItems'
+import Typography from '@material-ui/core/Typography';
 
 function ExchangeBoard(props) {
 
   return (
 
-    <div className="card mb-4">
-      <LendBoard
+    <div>
+      <Typography component="h2" variant="h5" color="primary" gutterBottom align="left">Exchange Board</Typography>
+      <ExchangeItems
         unstakeTokens={props.unstakeTokens}
         stakeTokens={props.stakeTokens}
-        withdrawYield={props.withdrawYield}
-
-      />
-      <BorrowBoard
         borrowTokens={props.borrowTokens}
         repayTokens={props.repayTokens}
-        withdrawYield={props.withdrawYield}
-      />
+        withdrawYield={props.withdrawYield} />
     </div>
 
   )
