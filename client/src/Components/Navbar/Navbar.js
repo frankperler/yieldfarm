@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem"
   },
   barColor: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
   },
   title: {
     flexGrow: 1,

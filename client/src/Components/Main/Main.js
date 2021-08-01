@@ -6,7 +6,6 @@ import ExchangeBoard from '../ExchangeBoard/ExchangeBoard'
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import clsx from 'clsx';
 import './Main.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +60,7 @@ function Main(props) {
             </Paper>
           </Grid>
           <Grid item xs={12} md={4} lg={3}>
-            <Paper>
+            <Paper className={classes.paper}>
               <TegBox tegTokenBalance={props.tegTokenBalance} />
             </Paper>
           </Grid>
