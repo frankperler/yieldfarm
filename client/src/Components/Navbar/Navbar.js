@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: "1rem"
   },
   barColor: {
     backgroundColor: theme.palette.primary.dark,

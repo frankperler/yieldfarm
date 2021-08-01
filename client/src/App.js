@@ -15,31 +15,26 @@ import './App.css';
 function App() {
 
   const [account, setAccount] = useState(null);
-
   const [daiToken, setDaiToken] = useState({})
   const [daiTokenBalance, setDaiTokenBalance] = useState('0');
   const [daiStakingBalance, setDaiStakingBalance] = useState('0');
   const [daiEarnedBalance, setDaiEarnedBalance] = useState('0');
   const [daiBorrowedBalance, setDaiBorrowedBalance] = useState('0');
   const [daiLossBalance, setDaiLossBalance] = useState('0');
-
   const [ethToken, setEthToken] = useState({})
   const [ethTokenBalance, setEthTokenBalance] = useState('0');
   const [ethStakingBalance, setEthStakingBalance] = useState('0');
   const [ethEarnedBalance, setEthEarnedBalance] = useState('0');
   const [ethBorrowedBalance, setEthBorrowedBalance] = useState('0');
   const [ethLossBalance, setEthLossBalance] = useState('0');
-
   const [usdtToken, setUsdtToken] = useState({})
   const [usdtTokenBalance, setUsdtTokenBalance] = useState('0');
   const [usdtStakingBalance, setUsdtStakingBalance] = useState('0');
   const [usdtEarnedBalance, setUsdtEarnedBalance] = useState('0');
   const [usdtBorrowedBalance, setUsdtBorrowedBalance] = useState('0');
   const [usdtLossBalance, setUsdtLossBalance] = useState('0');
-
   const [tegToken, setTegToken] = useState({})
   const [tegTokenBalance, setTegTokenBalance] = useState('0');
-
   const [tokenFarm, setTokenFarm] = useState({})
 
 
@@ -325,12 +320,12 @@ function App() {
         }
     }
   })
-
+  
   return (account ?
     <ThemeProvider theme={theme}>
 
       <div className="body">
-        <Navigationbar account={account} />
+        <Navigationbar account={account}/>
         <Main
           daiTokenBalance={daiTokenBalance}
           ethTokenBalance={ethTokenBalance}

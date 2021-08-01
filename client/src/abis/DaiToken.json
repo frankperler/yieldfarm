@@ -9067,12 +9067,12 @@
         }
       },
       "links": {},
-      "address": "0x770bf70fFF6F0B66623F346eD88C954DEF48fa07",
-      "transactionHash": "0x4b365b17764ebedef6557a7cb322f985ac148963e18d723e85f803f0b2d0157f"
+      "address": "0x6Cf3513E275bA8416cD0C588B802c7689F49511d",
+      "transactionHash": "0xf1f46b346a7b3615a70aef2e3cce52d1487e582797b9844eecc4c499c54c283f"
     }
   },
   "schemaVersion": "3.4.2",
-  "updatedAt": "2021-07-31T14:03:49.612Z",
+  "updatedAt": "2021-08-01T06:44:10.812Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
