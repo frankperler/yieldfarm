@@ -319,11 +319,14 @@ function MarketPage(props) {
     }
   })
 
+    // const [contextValue, setContextValue] = useState(0)
+
   return (
       <ThemeProvider theme={theme}>
         {props.userAddr && (
         <div className="body">
           <Navigationbar account={account} />
+          {/* <AppContext.Provider value={contextValue}> */}
           <Main
             daiTokenBalance={daiTokenBalance}
             ethTokenBalance={ethTokenBalance}
@@ -352,6 +355,7 @@ function MarketPage(props) {
             borrowTokens={borrowTokens}
             repayTokens={repayTokens}
           />
+          {/* <AppContext.Provider/> */}
         </div>
 
         )}
