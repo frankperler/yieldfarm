@@ -45,7 +45,11 @@ function MarketPage(props) {
   const loadBlockchainData = async () => {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
-    const myAccount = accounts[0];
+    let myAccount = props.userAddr
+    // props.isAuth ? 
+    //   myAccount = props.userAddr
+    //   :
+    //   myAccount = accounts[0];
 
     const networkId = await web3.eth.net.getId()
 
@@ -321,7 +325,7 @@ function MarketPage(props) {
 
   return (
       <ThemeProvider theme={theme}>
-
+        {props.userAddr && (
         <div className="body">
           <Navigationbar account={account} />
           <Main
@@ -353,6 +357,8 @@ function MarketPage(props) {
             repayTokens={repayTokens}
           />
         </div>
+
+        )}
       </ThemeProvider>
   );
 
