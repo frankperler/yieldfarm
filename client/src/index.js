@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import App from './App'
-// import LandingPage from './Components/LandingPage/LandingPage';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
