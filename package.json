@@ -26,6 +26,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^7.32.0"
   }
 }
