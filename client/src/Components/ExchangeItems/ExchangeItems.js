@@ -1,8 +1,8 @@
 import { React, useState } from 'react'
 import './ExchangeItems.css';
-import dai from '../../dai.png'
-import eth from '../../eth-logo.png'
-import usdt from '../../tether.png'
+import dai from '../../assets/dai.png'
+import eth from '../../assets/eth-logo.png'
+import usdt from '../../assets/tether.png'
 import web3 from 'web3';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';

@@ -1,8 +1,8 @@
 import { React } from 'react'
 import './Dashboard.css';
-import dai from '../../dai.png'
-import eth from '../../eth-logo.png'
-import usdt from '../../tether.png'
+import dai from '../../assets/dai.png'
+import eth from '../../assets/eth-logo.png'
+import usdt from '../../assets/tether.png'
 import web3 from 'web3';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

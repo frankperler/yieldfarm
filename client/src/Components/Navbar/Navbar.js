@@ -1,5 +1,5 @@
 import { React } from 'react'
-import farmer from '../../randymarsh.png'
+import farmer from '../../assets/randymarsh.png'
 import './Navbar.css';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';

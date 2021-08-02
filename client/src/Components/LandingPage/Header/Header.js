@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar } from '@material-ui/core';
-import farmer from '../../../farmer-randy.png'
+import farmer from '../../../assets/farmer-randy.png'
 import './Header.css'
 
 const useStyles = makeStyles((theme) => ({

@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import farmer from '../../randymarsh.png'
-import wheat from '../../wheat.png'
+import farmer from '../../assets/randymarsh.png'
 import Header from "./Header/Header";
 const Moralis = require('moralis');
 const { REACT_APP_MORALIS_APP_ID, REACT_APP_MORALIS_SERVER } = process.env;
