@@ -44,12 +44,8 @@ function MarketPage(props) {
 
   const loadBlockchainData = async () => {
     const web3 = window.web3
-    const accounts = await web3.eth.getAccounts()
+    // const accounts = await web3.eth.getAccounts()
     let myAccount = props.userAddr
-    // props.isAuth ? 
-    //   myAccount = props.userAddr
-    //   :
-    //   myAccount = accounts[0];
 
     const networkId = await web3.eth.net.getId()
 

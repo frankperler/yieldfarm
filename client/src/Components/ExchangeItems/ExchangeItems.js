@@ -14,15 +14,24 @@ import { makeStyles } from '@material-ui/core/styles';
 
 function ExchangeItems(props) {
 
-  const [daiLendAmount, setDaiLendAmount] = useState('0');
-  const [ethLendAmount, setEthLendAmount] = useState('0');
-  const [usdtLendAmount, setUsdtLendAmount] = useState('0');
-  const [daiBorrowAmount, setDaiBorrowAmount] = useState('0');
-  const [ethBorrowAmount, setEthBorrowAmount] = useState('0');
-  const [usdtBorrowAmount, setUsdtBorrowAmount] = useState('0');
+  const [daiLendAmount, setDaiLendAmount] = useState('');
+  const [ethLendAmount, setEthLendAmount] = useState('');
+  const [usdtLendAmount, setUsdtLendAmount] = useState('');
+  const [daiBorrowAmount, setDaiBorrowAmount] = useState('');
+  const [ethBorrowAmount, setEthBorrowAmount] = useState('');
+  const [usdtBorrowAmount, setUsdtBorrowAmount] = useState('');
 
   const handleChange = (setter) => (e) => {
     setter(e.target.value);
+  }
+
+  const clearForm = () => {
+    setDaiLendAmount('')
+    setEthLendAmount('')
+    setUsdtLendAmount('')
+    setDaiBorrowAmount('')
+    setEthBorrowAmount('')
+    setUsdtBorrowAmount('')
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -72,6 +81,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
                 await props.stakeTokens(amount, "dai")
+                clearForm()
               }}
             >
               Lend
@@ -82,6 +92,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(daiLendAmount.toString(), 'Ether')
                 await props.unstakeTokens(amount, "dai")
+                clearForm()
               }}
             >
               Unstake
@@ -117,6 +128,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(daiBorrowAmount.toString(), 'Ether')
                 await props.borrowTokens(amount, "dai")
+                clearForm()
               }}
             >
               Borrow
@@ -127,6 +139,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(daiBorrowAmount.toString(), 'Ether')
                 await props.repayTokens(amount, "dai")
+                clearForm()
               }}
             >
               Repay
@@ -144,6 +157,7 @@ function ExchangeItems(props) {
             onClick={async (event) => {
               event.preventDefault()
               await props.withdrawYield("dai")
+              clearForm()
             }}
           >
             Withdraw
@@ -182,6 +196,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
                 await props.stakeTokens(amount, "eth")
+                clearForm()
               }}
             >
               Lend
@@ -192,6 +207,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(ethLendAmount.toString(), 'Ether')
                 await props.unstakeTokens(amount, "eth")
+                clearForm()
               }}
             >
               Unstake
@@ -227,6 +243,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(ethBorrowAmount.toString(), 'Ether')
                 await props.borrowTokens(amount, "eth")
+                clearForm()
               }}
             >
               Borrow
@@ -237,6 +254,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(ethBorrowAmount.toString(), 'Ether')
                 await props.repayTokens(amount, "eth")
+                clearForm()
               }}
             >
               Repay
@@ -254,6 +272,7 @@ function ExchangeItems(props) {
             onClick={async (event) => {
               event.preventDefault()
               await props.withdrawYield("eth")
+              clearForm()
             }}
           >
             Withdraw
@@ -291,6 +310,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
                 await props.stakeTokens(amount, "usdt")
+                clearForm()
               }}
             >
               Lend
@@ -301,6 +321,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(usdtLendAmount.toString(), 'Ether')
                 await props.unstakeTokens(amount, "usdt")
+                clearForm()
               }}
             >
               Unstake
@@ -336,6 +357,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(usdtBorrowAmount.toString(), 'Ether')
                 await props.borrowTokens(amount, "usdt")
+                clearForm()
               }}
             >
               Borrow
@@ -346,6 +368,7 @@ function ExchangeItems(props) {
                 let amount;
                 amount = web3.utils.toWei(usdtBorrowAmount.toString(), 'Ether')
                 await props.repayTokens(amount, "usdt")
+                clearForm()
               }}
             >
               Repay
@@ -363,6 +386,7 @@ function ExchangeItems(props) {
             onClick={async (event) => {
               event.preventDefault()
               await props.withdrawYield("usdt")
+              clearForm()
             }}
           >
             Withdraw

@@ -66,14 +66,6 @@ function Main(props) {
           </Grid>
         </Grid>
       </Container>
-      <Container maxWidth="100%" className={classes.containerDisplay}>
-
-
-
-      </Container>
-
-
-
     </div>
   );
 }
