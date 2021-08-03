@@ -1,9 +1,8 @@
 import './App.css';
-import { React, useState, createContext } from 'react'
+import { React, useState } from 'react'
 import MarketPage from './Components/MarketPage/MarketPage'
 import LandingPage from './Components/LandingPage/LandingPage'
 
-export const AppContext = createContext(null);
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);

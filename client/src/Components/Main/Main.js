@@ -29,23 +29,7 @@ function Main(props) {
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Dashboard
-                daiTokenBalance={props.daiTokenBalance}
-                ethTokenBalance={props.ethTokenBalance}
-                usdtTokenBalance={props.usdtTokenBalance}
-                daiStakingBalance={props.daiStakingBalance}
-                ethStakingBalance={props.ethStakingBalance}
-                usdtStakingBalance={props.usdtStakingBalance}
-                daiBorrowedBalance={props.daiBorrowedBalance}
-                ethBorrowedBalance={props.ethBorrowedBalance}
-                usdtBorrowedBalance={props.usdtBorrowedBalance}
-                daiEarnedBalance={props.daiEarnedBalance}
-                ethEarnedBalance={props.ethEarnedBalance}
-                usdtEarnedBalance={props.usdtEarnedBalance}
-                daiLossBalance={props.daiLossBalance}
-                ethLossBalance={props.ethLossBalance}
-                usdtLossBalance={props.usdtLossBalance}
-              />
+              <Dashboard/>
             </Paper>
           </Grid>
           <Grid item xs={12} md={8} lg={9}>

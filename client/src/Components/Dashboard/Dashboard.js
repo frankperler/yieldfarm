@@ -1,4 +1,5 @@
 import { React, useContext } from 'react'
+import { MarketPageContext } from '../MarketPage/MarketPage';
 import './Dashboard.css';
 import dai from '../../assets/dai.png'
 import eth from '../../assets/eth-logo.png'
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const classes = useStyles();
+  const  {state} = useContext(MarketPageContext)
 
   return (
     <>
@@ -59,31 +61,31 @@ function Dashboard(props) {
             <TableCell>{<img alt="" src={dai}></img>}</TableCell>
             <TableCell>100%</TableCell>
             <TableCell>110%</TableCell>
-            <TableCell>{web3.utils.fromWei(props.daiStakingBalance, 'Ether')} DAI</TableCell>
-            <TableCell>{web3.utils.fromWei(props.daiBorrowedBalance, 'Ether')} DAI</TableCell>
-            <TableCell>{web3.utils.fromWei(props.daiTokenBalance, 'Ether')} DAI</TableCell>
-            <TableCell>{web3.utils.fromWei(props.daiEarnedBalance, 'Ether')} TEG</TableCell>
-            <TableCell>{web3.utils.fromWei(props.daiLossBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.daiStakingBalance, 'Ether')} DAI</TableCell>
+            <TableCell>{web3.utils.fromWei(state.daiBorrowedBalance, 'Ether')} DAI</TableCell>
+            <TableCell>{web3.utils.fromWei(state.daiTokenBalance, 'Ether')} DAI</TableCell>
+            <TableCell>{web3.utils.fromWei(state.daiEarnedBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.daiLossBalance, 'Ether')} TEG</TableCell>
           </TableRow>
           <TableRow key="2">
             <TableCell>{<img alt="" src={eth}></img>}</TableCell>
             <TableCell>100%</TableCell>
             <TableCell>110%</TableCell>
-            <TableCell>{web3.utils.fromWei(props.ethStakingBalance, 'Ether')} ETH</TableCell>
-            <TableCell>{web3.utils.fromWei(props.ethBorrowedBalance, 'Ether')} ETH</TableCell>
-            <TableCell>{web3.utils.fromWei(props.ethTokenBalance, 'Ether')} ETH</TableCell>
-            <TableCell>{web3.utils.fromWei(props.ethEarnedBalance, 'Ether')} TEG</TableCell>
-            <TableCell>{web3.utils.fromWei(props.ethLossBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.ethStakingBalance, 'Ether')} ETH</TableCell>
+            <TableCell>{web3.utils.fromWei(state.ethBorrowedBalance, 'Ether')} ETH</TableCell>
+            <TableCell>{web3.utils.fromWei(state.ethTokenBalance, 'Ether')} ETH</TableCell>
+            <TableCell>{web3.utils.fromWei(state.ethEarnedBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.ethLossBalance, 'Ether')} TEG</TableCell>
           </TableRow>
           <TableRow key="3">
             <TableCell>{<img alt="" src={usdt}></img>}</TableCell>
             <TableCell>100%</TableCell>
             <TableCell>110%</TableCell>
-            <TableCell>{web3.utils.fromWei(props.usdtStakingBalance, 'Ether')} USDT</TableCell>
-            <TableCell>{web3.utils.fromWei(props.usdtBorrowedBalance, 'Ether')} USDT</TableCell>
-            <TableCell>{web3.utils.fromWei(props.usdtTokenBalance, 'Ether')} USDT</TableCell>
-            <TableCell>{web3.utils.fromWei(props.usdtEarnedBalance, 'Ether')} TEG</TableCell>
-            <TableCell>{web3.utils.fromWei(props.usdtLossBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.usdtStakingBalance, 'Ether')} USDT</TableCell>
+            <TableCell>{web3.utils.fromWei(state.usdtBorrowedBalance, 'Ether')} USDT</TableCell>
+            <TableCell>{web3.utils.fromWei(state.usdtTokenBalance, 'Ether')} USDT</TableCell>
+            <TableCell>{web3.utils.fromWei(state.usdtEarnedBalance, 'Ether')} TEG</TableCell>
+            <TableCell>{web3.utils.fromWei(state.usdtLossBalance, 'Ether')} TEG</TableCell>
           </TableRow>
         </TableBody>
       </Table>

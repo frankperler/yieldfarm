@@ -1,6 +1,7 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, useReducer, createContext } from 'react'
 import { ThemeProvider, createTheme } from '@material-ui/core'
 import { loadWeb3 } from '../../Service/Web3Service'
+import { reducers, initialState } from '../../Reducers'
 import Navigationbar from '../Navbar/Navbar'
 import Main from '../Main/Main'
 
@@ -12,30 +13,21 @@ import TokenFarm from '../../abis/TokenFarm.json'
 
 import './MarketPage.css';
 
+export const MarketPageContext = createContext(initialState);
+
 function MarketPage(props) {
 
   const [account, setAccount] = useState(null);
+
   const [daiToken, setDaiToken] = useState({})
-  const [daiTokenBalance, setDaiTokenBalance] = useState('0');
-  const [daiStakingBalance, setDaiStakingBalance] = useState('0');
-  const [daiEarnedBalance, setDaiEarnedBalance] = useState('0');
-  const [daiBorrowedBalance, setDaiBorrowedBalance] = useState('0');
-  const [daiLossBalance, setDaiLossBalance] = useState('0');
   const [ethToken, setEthToken] = useState({})
-  const [ethTokenBalance, setEthTokenBalance] = useState('0');
-  const [ethStakingBalance, setEthStakingBalance] = useState('0');
-  const [ethEarnedBalance, setEthEarnedBalance] = useState('0');
-  const [ethBorrowedBalance, setEthBorrowedBalance] = useState('0');
-  const [ethLossBalance, setEthLossBalance] = useState('0');
   const [usdtToken, setUsdtToken] = useState({})
-  const [usdtTokenBalance, setUsdtTokenBalance] = useState('0');
-  const [usdtStakingBalance, setUsdtStakingBalance] = useState('0');
-  const [usdtEarnedBalance, setUsdtEarnedBalance] = useState('0');
-  const [usdtBorrowedBalance, setUsdtBorrowedBalance] = useState('0');
-  const [usdtLossBalance, setUsdtLossBalance] = useState('0');
   const [tegToken, setTegToken] = useState({})
-  const [tegTokenBalance, setTegTokenBalance] = useState('0');
   const [tokenFarm, setTokenFarm] = useState({})
+
+  const [tegTokenBalance, setTegTokenBalance] = useState('0');
+
+  const [state, dispatch] = useReducer(reducers, initialState)
 
   useEffect(() => {
     loadWeb3()
@@ -44,88 +36,55 @@ function MarketPage(props) {
 
   const loadBlockchainData = async () => {
     const web3 = window.web3
-    // const accounts = await web3.eth.getAccounts()
     let myAccount = props.userAddr
 
     const networkId = await web3.eth.net.getId()
-
-    //load DaiToken
+    //load Tokens and TokenFarm
     const daiTokenData = DaiToken.networks[networkId]
-    if (daiTokenData) {
+    const ethTokenData = EthToken.networks[networkId]
+    const usdtTokenData = UsdtToken.networks[networkId]
+    const tegTokenData = TegToken.networks[networkId]
+
+    if (daiTokenData && ethTokenData && usdtTokenData && tegTokenData) {
       const daiToken = new web3.eth.Contract(DaiToken.abi, daiTokenData.address)
       setDaiToken(daiToken)
       let daiTokenBalance = await daiToken.methods.balanceOf(myAccount).call()
-      setDaiTokenBalance(daiTokenBalance.toString())
-    } else {
-      window.alert('Dai Token contract not deployed to detected network')
-    }
 
-    //load EthToken
-    const ethTokenData = EthToken.networks[networkId]
-    if (ethTokenData) {
       const ethToken = new web3.eth.Contract(EthToken.abi, ethTokenData.address)
       setEthToken(ethToken)
       let ethTokenBalance = await ethToken.methods.balanceOf(myAccount).call()
-      setEthTokenBalance(ethTokenBalance.toString())
-    } else {
-      window.alert('Eth Token contract not deployed to detected network')
-    }
 
-    //load UsdtToken
-    const usdtTokenData = UsdtToken.networks[networkId]
-    if (usdtTokenData) {
       const usdtToken = new web3.eth.Contract(UsdtToken.abi, usdtTokenData.address)
       setUsdtToken(usdtToken)
       let usdtTokenBalance = await usdtToken.methods.balanceOf(myAccount).call()
-      setUsdtTokenBalance(usdtTokenBalance.toString())
-    } else {
-      window.alert('Usdt Token contract not deployed to detected network')
-    }
 
-    //load tegToken
-    const tegTokenData = TegToken.networks[networkId]
-    if (tegTokenData) {
       const tegToken = new web3.eth.Contract(TegToken.abi, tegTokenData.address)
       setTegToken(tegToken)
       let tegTokenBalance = await tegToken.methods.balanceOf(myAccount).call()
       setTegTokenBalance(tegTokenBalance.toString())
-    } else {
-      window.alert('Teg Token contract not deployed to detected network')
-    }
 
-    //load tokenFarm
-    const tokenFarmData = TokenFarm.networks[networkId]
-    if (tokenFarmData) {
+      const tokenFarmData = TokenFarm.networks[networkId]
       const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)
       setTokenFarm(tokenFarm)
       //set staking balances
       let daiStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "dai").call()
       let ethStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "eth").call()
       let usdtStakingBalance = await tokenFarm.methods.stakingBalance(myAccount, "usdt").call()
-      setDaiStakingBalance(daiStakingBalance.toString())
-      setEthStakingBalance(ethStakingBalance.toString())
-      setUsdtStakingBalance(usdtStakingBalance.toString())
+
       //set earned balances
       let daiEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "dai").call()
       let ethEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "eth").call()
       let usdtEarnedBalance = await tokenFarm.methods.earnedBalance(myAccount, "usdt").call()
-      setDaiEarnedBalance(daiEarnedBalance.toString())
-      setEthEarnedBalance(ethEarnedBalance.toString())
-      setUsdtEarnedBalance(usdtEarnedBalance.toString())
+
       //set borrowed balances
       let daiBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "dai").call()
       let ethBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "eth").call()
       let usdtBorrowedBalance = await tokenFarm.methods.borrowedBalance(myAccount, "usdt").call()
-      setDaiBorrowedBalance(daiBorrowedBalance.toString())
-      setEthBorrowedBalance(ethBorrowedBalance.toString())
-      setUsdtBorrowedBalance(usdtBorrowedBalance.toString())
+
       //set borrowed balances
       let daiLossBalance = await tokenFarm.methods.lossBalance(myAccount, "dai").call()
       let ethLossBalance = await tokenFarm.methods.lossBalance(myAccount, "eth").call()
       let usdtLossBalance = await tokenFarm.methods.lossBalance(myAccount, "usdt").call()
-      setDaiLossBalance(daiLossBalance.toString())
-      setEthLossBalance(ethLossBalance.toString())
-      setUsdtLossBalance(usdtLossBalance.toString())
 
 
       tokenFarm.events.Stake({}, (error, data) => {
@@ -133,21 +92,14 @@ function MarketPage(props) {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            console.log(data)
-            setDaiStakingBalance(data.returnValues.stakingBal)
-            setDaiEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setDaiTokenBalance(data.returnValues.daiBal)
+            dispatch({ type: 'stake-dai', data })
           } else if (data.returnValues.tok === "eth") {
-            setEthStakingBalance(data.returnValues.stakingBal)
-            setEthEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setEthTokenBalance(data.returnValues.ethBal)
+            dispatch({ type: 'stake-eth', data })
           } else {
-            setUsdtStakingBalance(data.returnValues.stakingBal)
-            setUsdtEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setUsdtTokenBalance(data.returnValues.usdtBal)
+            dispatch({ type: 'stake-usdt', data })
           }
         }
       })
@@ -157,20 +109,14 @@ function MarketPage(props) {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            setDaiStakingBalance(data.returnValues.stakingBal)
-            setDaiEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setDaiTokenBalance(data.returnValues.daiBal)
+            dispatch({ type: 'stake-dai', data })
           } else if (data.returnValues.tok === "eth") {
-            setEthStakingBalance(data.returnValues.stakingBal)
-            setEthEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setEthTokenBalance(data.returnValues.ethBal)
+            dispatch({ type: 'stake-eth', data })
           } else {
-            setUsdtStakingBalance(data.returnValues.stakingBal)
-            setUsdtEarnedBalance(data.returnValues.intBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setUsdtTokenBalance(data.returnValues.usdtBal)
+            dispatch({ type: 'stake-usdt', data })
           }
         }
       })
@@ -180,26 +126,14 @@ function MarketPage(props) {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            setDaiStakingBalance(data.returnValues.stakingBal)
-            setDaiEarnedBalance(data.returnValues.intBal)
-            setDaiBorrowedBalance(data.returnValues.borrowBal)
-            setDaiLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setDaiTokenBalance(data.returnValues.daiBal)
+            dispatch({ type: 'withdraw-dai', data })
           } else if (data.returnValues.tok === "eth") {
-            setEthStakingBalance(data.returnValues.stakingBal)
-            setEthEarnedBalance(data.returnValues.intBal)
-            setEthBorrowedBalance(data.returnValues.borrowBal)
-            setEthLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setEthTokenBalance(data.returnValues.ethBal)
+            dispatch({ type: 'withdraw-eth', data })
           } else {
-            setUsdtStakingBalance(data.returnValues.stakingBal)
-            setUsdtEarnedBalance(data.returnValues.intBal)
-            setUsdtBorrowedBalance(data.returnValues.borrowBal)
-            setUsdtLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setUsdtTokenBalance(data.returnValues.usdtBal)
+            dispatch({ type: 'withdraw-usdt', data })
           }
         }
       })
@@ -209,20 +143,14 @@ function MarketPage(props) {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            setDaiBorrowedBalance(data.returnValues.borrowBal)
-            setDaiLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setDaiTokenBalance(data.returnValues.daiBal)
+            dispatch({ type: 'borrow-dai', data })
           } else if (data.returnValues.tok === "eth") {
-            setEthBorrowedBalance(data.returnValues.borrowBal)
-            setEthLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setEthTokenBalance(data.returnValues.ethBal)
+            dispatch({ type: 'borrow-eth', data })
           } else {
-            setUsdtBorrowedBalance(data.returnValues.borrowBal)
-            setUsdtLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setUsdtTokenBalance(data.returnValues.usdtBal)
+            dispatch({ type: 'borrow-usdt', data })
           }
         }
       })
@@ -232,29 +160,40 @@ function MarketPage(props) {
           console.log(error)
         } else {
           if (data.returnValues.tok === "dai") {
-            setDaiBorrowedBalance(data.returnValues.borrowBal)
-            setDaiLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setDaiTokenBalance(data.returnValues.daiBal)
+            dispatch({ type: 'borrow-dai', data })
           } else if (data.returnValues.tok === "eth") {
-            setEthBorrowedBalance(data.returnValues.borrowBal)
-            setEthLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setEthTokenBalance(data.returnValues.ethBal)
+            dispatch({ type: 'borrow-eth', data })
           } else {
-            setUsdtBorrowedBalance(data.returnValues.borrowBal)
-            setUsdtLossBalance(data.returnValues.lossBal)
             setTegTokenBalance(data.returnValues.tegBal)
-            setUsdtTokenBalance(data.returnValues.usdtBal)
+            dispatch({ type: 'borrow-usdt', data })
           }
         }
       })
 
+      dispatch({
+        type: 'update-all',
+        daiTokenBalance,
+        daiStakingBalance,
+        daiEarnedBalance,
+        daiBorrowedBalance,
+        daiLossBalance,
+        ethTokenBalance,
+        ethStakingBalance,
+        ethEarnedBalance,
+        ethBorrowedBalance,
+        ethLossBalance,
+        usdtTokenBalance,
+        usdtStakingBalance,
+        usdtEarnedBalance,
+        usdtBorrowedBalance,
+        usdtLossBalance
+      })
+      setAccount(myAccount)
     } else {
-      window.alert('TokenFarm contract not deployed to detected network')
+      window.alert('DaiToken, EthToken, UsdtToken and TokenFarm contracts not deployed to detected network')
     }
-
-    setAccount(myAccount)
   }
 
   const stakeTokens = (amount, token) => {
@@ -319,49 +258,26 @@ function MarketPage(props) {
     }
   })
 
-    // const [contextValue, setContextValue] = useState(0)
-
   return (
-      <ThemeProvider theme={theme}>
-        {props.userAddr && (
+    <ThemeProvider theme={theme}>
+      {props.userAddr && (
         <div className="body">
           <Navigationbar account={account} />
-          {/* <AppContext.Provider value={contextValue}> */}
-          <Main
-            daiTokenBalance={daiTokenBalance}
-            ethTokenBalance={ethTokenBalance}
-            usdtTokenBalance={usdtTokenBalance}
-            tegTokenBalance={tegTokenBalance}
+          <MarketPageContext.Provider value={{ state: state, dispatch: dispatch }}>
+            <Main
+              tegTokenBalance={tegTokenBalance}
 
-            daiStakingBalance={daiStakingBalance}
-            ethStakingBalance={ethStakingBalance}
-            usdtStakingBalance={usdtStakingBalance}
-
-            daiEarnedBalance={daiEarnedBalance}
-            ethEarnedBalance={ethEarnedBalance}
-            usdtEarnedBalance={usdtEarnedBalance}
-
-            daiBorrowedBalance={daiBorrowedBalance}
-            ethBorrowedBalance={ethBorrowedBalance}
-            usdtBorrowedBalance={usdtBorrowedBalance}
-
-            daiLossBalance={daiLossBalance}
-            ethLossBalance={ethLossBalance}
-            usdtLossBalance={usdtLossBalance}
-
-            withdrawYield={withdrawYield}
-            stakeTokens={stakeTokens}
-            unstakeTokens={unstakeTokens}
-            borrowTokens={borrowTokens}
-            repayTokens={repayTokens}
-          />
-          {/* <AppContext.Provider/> */}
+              withdrawYield={withdrawYield}
+              stakeTokens={stakeTokens}
+              unstakeTokens={unstakeTokens}
+              borrowTokens={borrowTokens}
+              repayTokens={repayTokens}
+            />
+          </MarketPageContext.Provider>
         </div>
-
-        )}
-      </ThemeProvider>
+      )}
+    </ThemeProvider>
   );
-
 }
 
 export default MarketPage;
