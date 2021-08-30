@@ -8,7 +8,6 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [userAddr, setUserAddr] = useState('')
 
-
   return (
     isAuth ?
       <MarketPage isAuth={isAuth} userAddr={userAddr} />

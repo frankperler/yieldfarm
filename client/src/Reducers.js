@@ -115,9 +115,9 @@ function reducers(state, action) {
         usdtBorrowedBalance: action.usdtBorrowedBalance.toString(),
         usdtLossBalance: action.usdtLossBalance.toString(),
       }
-      default:
-         return state;
+    default:
+      return state;
   }
 }
 
-export {initialState, reducers}
+export { initialState, reducers }

@@ -56,7 +56,8 @@ export default function LandingPage({ userAddr, setUserAddr, setIsAuth }) {
           <span className={classes.colorText}>Tegridy Farm </span>
           is a DeFi Yield Farming App running
           on the Ethereum Blockchain. <br></br>
-          Lend, borrow and get your <span className={classes.colorText}>Tegridy Tokens NOW!</span>
+          Lend and borrow your ERC-20 tokens and
+          get your <span className={classes.colorText}>Tegridy Tokens NOW!</span>
         </Typography>
         <Button
           variant="outlined"

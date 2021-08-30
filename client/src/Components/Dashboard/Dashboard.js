@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    shape: {borderRadius: 4}
+    shape: { borderRadius: 4 }
   },
   titleColor: {
     backgroundColor: theme.palette.primary.dark,
@@ -28,11 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const classes = useStyles();
-  const  {state} = useContext(MarketPageContext)
+  const { state } = useContext(MarketPageContext)
 
   return (
     <>
-    <Typography component="h2" variant="h5" color="secondary" gutterBottom align="left">Dashboard</Typography>
+      <Typography component="h2" variant="h5" color="secondary" gutterBottom align="left">Dashboard</Typography>
       <Table size="medium">
         <colgroup>
           <col width="10%" />
