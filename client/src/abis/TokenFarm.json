@@ -45432,14 +45432,14 @@
     "5777": {
       "events": {},
       "links": {
-        "Helpers": "0x9a5ec452AD2117F3Aa4974fdaA505b4F54d93E8f"
+        "Helpers": "0xd240E52D3049c110dDDf2c4182a9246519B7ddF6"
       },
-      "address": "0xB0e08bf404260F8a69fb2F5877C703A0D3901bB8",
-      "transactionHash": "0x3d65b05dbf7bc50690f7db278292ac0cd54aef5acd08f76cce6a44eef9f04af5"
+      "address": "0x17E3111c067f61DBA235231e1F0ADA156B1e65E7",
+      "transactionHash": "0xaea1c0b55dea8da0a27299c7ac7ce50ab2bbcab4da564553a4ba2fda4711c188"
     }
   },
   "schemaVersion": "3.4.2",
-  "updatedAt": "2021-08-03T13:51:01.248Z",
+  "updatedAt": "2021-08-30T08:45:37.399Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
